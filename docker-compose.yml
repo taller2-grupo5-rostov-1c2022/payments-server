@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  payments-server:
+    build: .
+    volumes:
+      - ./src:/app/src
+      - ./test:/app/test
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - PORT=${PORT}
