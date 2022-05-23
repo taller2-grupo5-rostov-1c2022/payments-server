@@ -1,20 +1,12 @@
-## Installation
+# Spotifiuby Payments Server
 
-To install the project we recommend that you use NVM and install the node version defined in `.nvmrc`
+## Dependencies
 
-Once you have that in place, you can install the dependencies with npm through
+To install the project we recommend that you use NVM and install the node version defined in `.nvmrc` `(v12.18.1)`
 
-`npm i`
+Once you have that in place, you can install the dependencies with npm through `npm i`
 
-### Start process
-
-To start the process, after you installed the dependencies and deployed the smart contracts to rinkeby, you can run
-
-`npm start`
-
-keep in mind that you should have everything in config set before that.
-
-### Available endpoints
+## Available endpoints
 
 The following endpoints are available:
 
@@ -24,7 +16,7 @@ The following endpoints are available:
 - Deposit ethers into the Smart contract: POST /deposit - Body params: senderId(integer), amountInEthers(string)
 - Get deposit receipt: GET /deposit/:txHash:
 
-### Usage example
+## Usage example
 
 ```sh
 $ http POST http://localhost:3000/wallet
@@ -107,47 +99,36 @@ content-type: application/json; charset=utf-8
 ```
 
 
-### Usage
+## Usage
 
+### Testing
 
+To run the tests, after you installed the dependencies, just run `npm t`
 
-#### Testing
+### Linting
 
-To run the tests, after you installed the dependencies, just run
+To run the linter, after you installed the dependencies, just run `npm run lint`
 
-`npm t`
+### Coverage
 
-#### Linting
+To create a coverage report, after you installed the dependencies, just run `npm run coverage`
 
-To run the linter, after you installed the dependencies, just run
+### Doc generation
 
-`npm run lint`
-
-#### Coverage
-
-To create a coverage report, after you installed the dependencies, just run
-
-`npm run coverage`
-
-#### Doc generation
-
-To create the smart contract documentation, after you installed the dependencies, just run
-
-`npm run docgen`
+To create the smart contract documentation, after you installed the dependencies, just run `npm run docgen`
 
 This will generate a browsable html file within the `./docs` folder, to view it you can open it with any browser.
 
-#### Deployment
+### Deployment
 
-To deploy the smart contracts just run
-
-`npm run deploy-kovan`
-
-`npm run deploy-local`
-
-depending on the network you want to use.
-
-#### Setting environment variables
+To deploy the smart contract just run `npm run deploy-rinkeby` or `npm run deploy-local` for local development.
 
 
-Keep in mind that you have to set the INFURA_API_KEY and MNEMONIC env vars in a .env file in the root of the project.
+### Environment variables
+
+Keep in mind that you have to set the following variables in a `.env` file in the root of the project:
+
+- `INFURA_API_KEY`: The API key for the Infura node, you can get it from the [Infura dashboard](https://infura.io/dashboard)
+- `MNEMONIC`: The mnemonic for the wallet, you can get it from Metamask
+- `PORT`: The port to run the server on. The default port is 3000
+

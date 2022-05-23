@@ -44,6 +44,7 @@
     "hardhat-typechain": "0.3.4",
     "husky": "5.0.9",
     "leafleth": "0.0.9",
+    "nodemon": "^2.0.16",
     "prettier": "2.2.1",
     "prettier-plugin-solidity": "1.0.0-beta.5",
     "shelljs": "0.8.4",
@@ -86,6 +87,7 @@
     "deploy-rinkeby": "hardhat deploy --network rinkeby",
     "deploy-local": "hardhat deploy --network hardhat",
     "start": "node src/server",
+    "start-dev": "nodemon src/server",
     "release": "standard-version"
   }
 }

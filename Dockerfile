@@ -12,4 +12,4 @@ COPY . .
 # Postinstall command for SC
 RUN npm run compile
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start-dev"]
