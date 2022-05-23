@@ -8,7 +8,7 @@ Once you have that in place, you can install the dependencies with npm through
 
 ### Start process
 
-To start the process, after you installed the dependencies and deployed the smart contracts to kovan, you can run
+To start the process, after you installed the dependencies and deployed the smart contracts to rinkeby, you can run
 
 `npm start`
 

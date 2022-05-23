@@ -80,7 +80,7 @@ const config: HardhatUserConfig = {
       chainId: chainIds.hardhat,
     },
     goerli: createTestnetConfig("goerli"),
-    kovan: createTestnetConfig("kovan"),
+    rinkeby: createTestnetConfig("rinkeby"),
     ropsten: createTestnetConfig("ropsten"),
   },
   paths: {
