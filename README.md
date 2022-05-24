@@ -146,7 +146,6 @@ Keep in mind that you have to set the following variables in a `.env` file in th
 This repository already contains these variables set as actions secrets and the deployment pipeline generates a `.env`
 file with those secrets.
 
-```
 
 ### Testing
 
