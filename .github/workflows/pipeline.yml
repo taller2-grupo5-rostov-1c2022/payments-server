@@ -75,6 +75,11 @@ jobs:
       url: "https://rostov-payments-server.herokuapp.com/"
     steps:
       - uses: actions/checkout@v2
+      - name: Create env file
+        run: |
+          touch .env
+          echo INFURA_API_KEY=${{ secrets.INFURA_API_KEY }} >> .env
+          echo MNEMONIC=${{ secrets.MNEMONIC }} >> .env
       - name: "Rename dockerfile for heroku deploy" # workaround
         run: |
           mv Dockerfile Dockerfile-not-needed
