@@ -1,3 +1,9 @@
+[![Production pipeline](https://github.com/taller2-grupo5-rostov-1c2022/payments-server/actions/workflows/pipeline.yml/badge.svg?branch=master)](https://github.com/taller2-grupo5-rostov-1c2022/payments-server/actions/workflows/pipeline.yml)
+[![codecov](https://codecov.io/gh/taller2-grupo5-rostov-1c2022/payments-server/branch/master/graph/badge.svg?token=htOzOZRHPV)](https://codecov.io/gh/taller2-grupo5-rostov-1c2022/payments-server)
+[![](https://img.shields.io/badge/Node-12.18.1-green.svg)](https://nodejs.org/en/)
+![Fastify](https://img.shields.io/badge/fastify-%23000000.svg?style=for-the-badge&logo=fastify&logoColor=white)
+![](https://img.shields.io/badge/version-0.1-blue.svg)
+
 # Spotifiuby Payments Server
 
 ## Dependencies
@@ -136,6 +142,11 @@ Keep in mind that you have to set the following variables in a `.env` file in th
 - `INFURA_API_KEY`: The API key for the Infura node, you can get it from the [Infura dashboard](https://infura.io/dashboard)
 - `MNEMONIC`: The mnemonic for the wallet, you can get it from MetaMask.
 - `PORT`: The port to run the server on. The default port is 3000.
+
+This repository already contains these variables set as actions secrets and the deployment pipeline generates a `.env`
+file with those secrets.
+
+```
 
 ### Testing
 

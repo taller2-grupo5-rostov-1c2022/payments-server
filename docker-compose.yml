@@ -9,3 +9,5 @@ services:
       - ${PORT}:${PORT}
     environment:
       - PORT=${PORT}
+      - MNEMONIC=${MNEMONIC}
+      - INFURA_API_KEY=${INFURA_API_KEY}
