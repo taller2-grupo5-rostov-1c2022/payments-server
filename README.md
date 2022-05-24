@@ -2,11 +2,12 @@
 
 ## Dependencies
 
-To install the project we recommend that you use NVM and install the node version defined in `.nvmrc` `(v12.18.1)`
+This project is based on [Taller 2 - Basic Payment SC](https://github.com/taller-de-programacion-2/basic_payment_sc).
+To install the project we recommend that you use NVM and install the node version defined in `.nvmrc` `(v12.18.1)` or `nvm use`
 
 Once you have that in place, you can install the dependencies with npm through `npm i`
 
-## Available endpoints
+## API Documentation
 
 The following endpoints are available:
 
@@ -98,8 +99,43 @@ content-type: application/json; charset=utf-8
 
 ```
 
+## Heroku
+
+You'll need to set the following actions secrets to deploy the project to Heroku:
+
+- `HEROKU_APP_NAME`: App name
+- `HEROKU_EMAIL`: Account email
+- `HEROKU_API_KEY`: Account [API key](https://dashboard.heroku.com/account)
+
+## Datadog
+
+The heroku Dockerfile includes the DataDog agent. Create a new DataDog API Key from [here](https://app.datadoghq.com/organization-settings/api-keys).
+Also, you need to set the following config vars in Heroku (you can use [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) if you want):
+
+```bash
+DD_API_KEY=<api_key_from_datadog>
+DD_DYNO_HOST=false
+HEROKU_APP_NAME=<app_name>
+DD_TAGS=service:<meaningful_tag_for_datadog>
+```
+
+## Upload Coverage to Codecov
+
+The pipeline automatically generates a coverage report and uploads it to [codecov](https://about.codecov.io/)
+
+You'll need to set the following actions secrets:
+
+- `CODECOV_TOKEN`: Repo Token. Can be obtained on codecov when setting up or on settings
 
 ## Usage
+
+### Environment variables
+
+Keep in mind that you have to set the following variables in a `.env` file in the root of the project:
+
+- `INFURA_API_KEY`: The API key for the Infura node, you can get it from the [Infura dashboard](https://infura.io/dashboard)
+- `MNEMONIC`: The mnemonic for the wallet, you can get it from MetaMask.
+- `PORT`: The port to run the server on. The default port is 3000.
 
 ### Testing
 
@@ -119,16 +155,6 @@ To create the smart contract documentation, after you installed the dependencies
 
 This will generate a browsable html file within the `./docs` folder, to view it you can open it with any browser.
 
-### Deployment
+### SC Deployment
 
 To deploy the smart contract just run `npm run deploy-rinkeby` or `npm run deploy-local` for local development.
-
-
-### Environment variables
-
-Keep in mind that you have to set the following variables in a `.env` file in the root of the project:
-
-- `INFURA_API_KEY`: The API key for the Infura node, you can get it from the [Infura dashboard](https://infura.io/dashboard)
-- `MNEMONIC`: The mnemonic for the wallet, you can get it from Metamask
-- `PORT`: The port to run the server on. The default port is 3000
-
