@@ -1,19 +1,20 @@
-import { Wallet } from "../../models/wallet";
 import { connectionPool } from "../connection_pool";
-import * as WalletMapper from "../entities/wallet";
+import * as DepositMapper from "../mapping/deposit_mapper";
 
-const TABLE_NAME = "WALLET";
+const TABLE_NAME = "DEPOSIT";
 
-export const create = async (newWallet: Wallet): Promise<Wallet> => {
+export const create = async newDeposit => {
   const client = await connectionPool.connect();
 
   try {
     const { rows } = await client.query(
-      "INSERT INTO " + TABLE_NAME + " (USER_ID, PRIVATE_KEY, ADDRESS) VALUES ($1, $2, $3) RETURNING *",
-      [newWallet.user_id, newWallet.privateKey, newWallet.address],
+      "INSERT INTO " +
+        TABLE_NAME +
+        " (WALLET_ID, SENDER_ADDRESS, AMOUNT, MONTH, YEAR) VALUES ($1, $2, $3, $4) RETURNING *",
+      [newDeposit.wallet_id, newDeposit.sender_address, newDeposit.amount, newDeposit.month, newDeposit.year],
     );
 
-    return WalletMapper.mapToWallet(rows[0]);
+    return DepositMapper.mapToDeposit(rows[0]);
   } catch (exception) {
     throw exception;
   } finally {
@@ -21,13 +22,13 @@ export const create = async (newWallet: Wallet): Promise<Wallet> => {
   }
 };
 
-export const findAll = async (): Promise<Wallet[]> => {
+export const findAll = async () => {
   const client = await connectionPool.connect();
 
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME);
 
-    return WalletMapper.mapToWalletArray(rows);
+    return DepositMapper.mapToDepositArray(rows);
   } catch (exception) {
     throw exception;
   } finally {
@@ -35,14 +36,14 @@ export const findAll = async (): Promise<Wallet[]> => {
   }
 };
 
-export const findById = async (id: number): Promise<Wallet | null> => {
+export const findById = async id => {
   const client = await connectionPool.connect();
 
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE ID = $1", [id]);
 
     if (rows[0]) {
-      return WalletMapper.mapToWallet(rows[0]);
+      return DepositMapper.mapToDeposit(rows[0]);
     } else {
       return null;
     }
@@ -58,24 +59,6 @@ export const remove = async (id: number): Promise<void> => {
 
   try {
     await client.query("DELETE FROM " + TABLE_NAME + " WHERE ID = $1", [id]);
-  } catch (exception) {
-    throw exception;
-  } finally {
-    client.release();
-  }
-};
-
-export const count = async (): Promise<any | null> => {
-  const client = await connectionPool.connect();
-
-  try {
-    const { rows } = await client.query("SELECT COUNT(*) FROM " + TABLE_NAME);
-
-    if (rows[0]) {
-      return rows[0];
-    } else {
-      return null;
-    }
   } catch (exception) {
     throw exception;
   } finally {

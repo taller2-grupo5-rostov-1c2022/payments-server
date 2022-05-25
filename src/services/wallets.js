@@ -18,7 +18,7 @@ const createWallet = () => async () => {
     id: walletsCount.toString(),
     user_id: 1, // TODO: pedir user_id con endpoint
     address: wallet.address,
-    privateKey: wallet.privateKey,
+    private_key: wallet.privateKey,
   });
 };
 
@@ -33,7 +33,7 @@ const getWalletData = () => index => {
 const getWallet = ({}) => index => {
   const provider = new ethers.providers.InfuraProvider("rinkeby", process.env.INFURA_API_KEY);
 
-  return new ethers.Wallet(getWalletData(index).privateKey, provider);
+  return new ethers.Wallet(getWalletData(index).private_key, provider);
 };
 
 module.exports = ({ config }) => ({
