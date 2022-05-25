@@ -1,17 +1,16 @@
 import { ApiError } from "../errors";
-import { Wallet } from "../models/wallet";
-import * as WalletRepository from "../postgres/repositories/wallet_repository";
+const WalletRepository = require("../postgres/repository/wallet_repository");
 
-export const findAll = async () =>
+const findAll = async () =>
   wrapWithUnknownError(() => WalletRepository.findAll(), "Unable to find all wallets due to unknown error");
 
-export const findById = async walletId =>
+const findById = async walletId =>
   wrapWithUnknownError(
     () => WalletRepository.findById(walletId),
     `Unable to find wallet with id ${walletId} due to unknown error`,
   );
 
-export const create = async newWalletDto =>
+const create = async newWalletDto =>
   wrapWithUnknownError(
     () => WalletRepository.create(newWalletDto),
     `Unable to create wallet ${newWalletDto} due to unknown error`,
@@ -23,5 +22,11 @@ const wrapWithUnknownError = (process, message) =>
     return new ApiError({ kind: "UNKNOWN_ERROR", message });
   });
 
-export const countWallet = (process, message) =>
+const countWallet = (process, message) =>
   wrapWithUnknownError(() => WalletRepository.count(), `Unable to count wallets due to unknown error`);
+
+module.exports = {
+  findAll,
+  findById,
+  create,
+};
