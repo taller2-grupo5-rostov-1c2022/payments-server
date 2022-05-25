@@ -35,12 +35,14 @@ const findAll = async () => {
 };
 
 const findById = async id => {
-  const client = await connectionPool.connect();
+  const client = await connectionPool.connectionPool.connect();
 
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE ID = $1", [id]);
+    console.log("wallet_repository found ", JSON.stringify(rows));
 
     if (rows[0]) {
+      console.log("wallet_repository will return ", JSON.stringify(WalletMapper.mapToWallet(rows[0])));
       return WalletMapper.mapToWallet(rows[0]);
     } else {
       return null;
@@ -53,7 +55,7 @@ const findById = async id => {
 };
 
 const remove = async id => {
-  const client = await connectionPool.connect();
+  const client = await connectionPool.connectionPool.connect();
 
   try {
     await client.query("DELETE FROM " + TABLE_NAME + " WHERE ID = $1", [id]);
@@ -65,7 +67,7 @@ const remove = async id => {
 };
 
 const count = async () => {
-  const client = await connectionPool.connect();
+  const client = await connectionPool.connectionPool.connect();
 
   try {
     const { rows } = await client.query("SELECT COUNT(*) FROM " + TABLE_NAME);

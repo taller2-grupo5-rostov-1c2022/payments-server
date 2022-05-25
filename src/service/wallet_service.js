@@ -29,4 +29,5 @@ module.exports = {
   findAll,
   findById,
   create,
+  countWallet,
 };
