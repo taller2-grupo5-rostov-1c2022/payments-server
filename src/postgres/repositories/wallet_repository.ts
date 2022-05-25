@@ -64,3 +64,21 @@ export const remove = async (id: number): Promise<void> => {
     client.release();
   }
 };
+
+export const count = async (): Promise<any | null> => {
+  const client = await connectionPool.connect();
+
+  try {
+    const { rows } = await client.query("SELECT COUNT(*) FROM " + TABLE_NAME);
+
+    if (rows[0]) {
+      return rows[0];
+    } else {
+      return null;
+    }
+  } catch (exception) {
+    throw exception;
+  } finally {
+    client.release();
+  }
+};

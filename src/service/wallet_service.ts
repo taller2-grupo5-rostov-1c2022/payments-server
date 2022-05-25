@@ -22,3 +22,6 @@ const wrapWithUnknownError = (process: () => Promise<any>, message: string) =>
     console.error("Unable to operate with payments service due to error", err);
     return new ApiError({ kind: "UNKNOWN_ERROR", message });
   });
+
+export const countWallet = (process: () => Promise<any>, message: string) =>
+  wrapWithUnknownError(() => WalletRepository.count(), `Unable to count wallets due to unknown error`);
