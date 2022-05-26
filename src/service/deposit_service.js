@@ -1,4 +1,3 @@
-import { ApiError } from "../errors";
 const DepositRepository = require("../postgres/repositories/deposit_repository");
 
 const findAll = async () =>
@@ -16,7 +15,7 @@ const create = async newDeposit =>
 const wrapWithUnknownError = (process, message) =>
   process().catch(err => {
     console.error("Unable to operate with deposit service due to error", err);
-    return new ApiError({ kind: "UNKNOWN_ERROR", message });
+    return { kind: "UNKNOWN_ERROR", message };
   });
 
 const findByWalletId = async ({ walletId, month, year }) =>

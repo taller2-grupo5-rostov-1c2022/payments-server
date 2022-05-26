@@ -1,5 +1,4 @@
-import { ApiError } from "../errors";
-const WalletRepository = require("../postgres/repository/wallet_repository");
+const WalletRepository = require("../postgres/repositories/wallet_repository");
 
 const findAll = async () =>
   wrapWithUnknownError(() => WalletRepository.findAll(), "Unable to find all wallets due to unknown error");
@@ -25,7 +24,7 @@ const create = async newWalletDto =>
 const wrapWithUnknownError = (process, message) =>
   process().catch(err => {
     console.error("Unable to operate with payments service due to error", err);
-    return new ApiError({ kind: "UNKNOWN_ERROR", message });
+    return new Error({ kind: "UNKNOWN_ERROR", message });
   });
 
 const countWallet = (process, message) =>
