@@ -19,9 +19,15 @@ const wrapWithUnknownError = (process, message) =>
     return new ApiError({ kind: "UNKNOWN_ERROR", message });
   });
 
+const findByWalletId = async ({ walletId, month, year }) =>
+  wrapWithUnknownError(
+    () => DepositRepository.findByWalletId({ walletId, month, year }),
+    `Unable to find deposit due to unknown error`,
+  );
 
 module.exports = {
   findAll,
   findById,
+  findByWalletId,
   create,
 };

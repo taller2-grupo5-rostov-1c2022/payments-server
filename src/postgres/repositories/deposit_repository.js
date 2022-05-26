@@ -8,10 +8,8 @@ const create = async newDeposit => {
 
   try {
     const { rows } = await client.query(
-      "INSERT INTO " +
-        TABLE_NAME +
-        " (WALLET_ID, SENDER_ADDRESS, AMOUNT, MONTH, YEAR) VALUES ($1, $2, $3, $4) RETURNING *",
-      [newDeposit.wallet_id, newDeposit.sender_address, newDeposit.amount, newDeposit.month, newDeposit.year],
+      "INSERT INTO " + TABLE_NAME + " (WALLET_ID, AMOUNT, MONTH, YEAR) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [newDeposit.wallet_id, newDeposit.amount, newDeposit.month, newDeposit.year],
     );
 
     return DepositMapper.mapToDeposit(rows[0]);
@@ -66,9 +64,32 @@ const remove = async id => {
   }
 };
 
+const findByWalletId = async ({ walletId, month, year }) => {
+  const client = await connectionPool.connectionPool.connect();
+
+  console.log(walletId, month, year);
+  try {
+    const { rows } = await client.query(
+      "SELECT * FROM " + TABLE_NAME + " WHERE WALLET_ID = $1 AND MONTH = $2 AND YEAR = $3",
+      [walletId, month, year],
+    );
+
+    if (rows[0]) {
+      return { status: "success", data: DepositMapper.mapToDeposit(rows[0]) };
+    } else {
+      return { status: "error", code: 404, message: "Unable to find deposit" };
+    }
+  } catch (exception) {
+    throw exception;
+  } finally {
+    client.release();
+  }
+};
+
 module.exports = {
   create,
   findAll,
   findById,
+  findByWalletId,
   remove,
 };

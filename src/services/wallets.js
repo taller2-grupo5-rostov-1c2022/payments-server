@@ -8,7 +8,7 @@ const getDeployerWallet = ({ config }) => () => {
   return wallet;
 };
 
-const createWallet = () => async () => {
+const createWallet = () => async userId => {
   const provider = new ethers.providers.InfuraProvider("rinkeby", process.env.INFURA_API_KEY);
   // This may break in some environments, keep an eye on it
   const wallet = ethers.Wallet.createRandom().connect(provider);
@@ -16,7 +16,7 @@ const createWallet = () => async () => {
 
   return await accounts.create({
     id: walletsCount.toString(),
-    user_id: 1, // TODO: pedir user_id con endpoint
+    user_id: userId,
     address: wallet.address,
     private_key: wallet.privateKey,
   });
@@ -30,11 +30,13 @@ const getWalletData = () => index => {
   return accounts.findById(index);
 };
 
+const getWalletIdWithUserId = async userId => {
+  return (await accounts.findByUserId(userId)).id;
+};
+
 const getWallet = index => {
-  console.log("index", index, "infura key", process.env.INFURA_API_KEY);
   const provider = new ethers.providers.InfuraProvider("rinkeby", process.env.INFURA_API_KEY);
-  console.log("pk", JSON.stringify(getWalletData(index).private_key));
-  return new ethers.Wallet(getWalletData(index).private_key, provider);
+  return new ethers.Wallet(getWalletData()(index).private_key, provider);
 };
 
 module.exports = ({ config }) => ({
@@ -42,5 +44,6 @@ module.exports = ({ config }) => ({
   getDeployerWallet: getDeployerWallet({ config }),
   getWalletsData: getWalletsData({ config }),
   getWalletData: getWalletData({ config }),
-  getWallet
+  getWallet,
+  getWalletIdWithUserId,
 });

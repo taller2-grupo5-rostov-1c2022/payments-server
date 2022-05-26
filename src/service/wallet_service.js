@@ -10,6 +10,12 @@ const findById = async walletId =>
     `Unable to find wallet with id ${walletId} due to unknown error`,
   );
 
+const findByUserId = async userId =>
+  wrapWithUnknownError(
+    () => WalletRepository.findByUserId(userId),
+    `Unable to find wallets for user with id ${userId} due to unknown error`,
+  );
+
 const create = async newWalletDto =>
   wrapWithUnknownError(
     () => WalletRepository.create(newWalletDto),
@@ -28,6 +34,7 @@ const countWallet = (process, message) =>
 module.exports = {
   findAll,
   findById,
+  findByUserId,
   create,
   countWallet,
 };
