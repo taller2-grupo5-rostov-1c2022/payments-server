@@ -6,11 +6,10 @@ CREATE TABLE WALLET (
 );
 
 CREATE TABLE DEPOSIT (
-    ID                SERIAL4 NOT NULL,
+    ID                VARCHAR(1000) NOT NULL,
     WALLET_ID         VARCHAR(5000) NOT NULL,
     AMOUNT            float8 NOT NULL,
     MONTH             int4 NOT NULL,
     YEAR              int4 NOT NULL,
-    CONSTRAINT deposit_pkey PRIMARY KEY (ID),
-    CONSTRAINT deposit_un UNIQUE (WALLET_ID, MONTH, YEAR)
+    CONSTRAINT deposit_pkey PRIMARY KEY (ID)
 );

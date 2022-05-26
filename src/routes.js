@@ -49,4 +49,13 @@ function getUserDepositRoute({ services, config }) {
   };
 }
 
+function getDepositsRoute({ services, config }) {
+  return {
+    method: "GET",
+    url: "/deposits",
+    schema: getDeposit.schema(config),
+    handler: getDeposit.handler({ config, ...services }),
+  };
+}
+
 module.exports = [getWalletDataRoute, getWalletsDataRoute, createWalletRoute, createDepositRoute, getUserDepositRoute];

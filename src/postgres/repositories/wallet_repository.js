@@ -21,7 +21,7 @@ const create = async newWallet => {
 };
 
 const findAll = async () => {
-  const client = await connectionPool.connect();
+  const client = await connectionPool.connectionPool.connect();
 
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME);

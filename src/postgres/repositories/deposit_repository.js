@@ -8,8 +8,8 @@ const create = async newDeposit => {
 
   try {
     const { rows } = await client.query(
-      "INSERT INTO " + TABLE_NAME + " (WALLET_ID, AMOUNT, MONTH, YEAR) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [newDeposit.wallet_id, newDeposit.amount, newDeposit.month, newDeposit.year],
+      "INSERT INTO " + TABLE_NAME + " (ID, WALLET_ID, AMOUNT, MONTH, YEAR) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [newDeposit.id ,newDeposit.wallet_id, newDeposit.amount, newDeposit.month, newDeposit.year],
     );
 
     return DepositMapper.mapToDeposit(rows[0]);
@@ -75,7 +75,7 @@ const findByWalletId = async ({ walletId, month, year }) => {
     );
 
     if (rows[0]) {
-      return { status: "success", data: DepositMapper.mapToDeposit(rows[0]) };
+      return { status: "success", data: rows };
     } else {
       return { status: "error", code: 404, message: "Unable to find deposit" };
     }
