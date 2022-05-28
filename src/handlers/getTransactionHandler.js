@@ -14,8 +14,8 @@ function schema() {
 
 function handler({ contractInteraction }) {
   return async function (req, reply) {
-    const { code, ...body } = await contractInteraction.getDepositReceipt(req.params.userId);
-    const actualCode = !!code ? code : body.status && body.status === "error" ? 400 : 200;
+    const body = await contractInteraction.getDepositReceipt(req.params.userId);
+    const actualCode = body ? 200 : 404;
     reply.code(actualCode).send(body);
   };
 }

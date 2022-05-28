@@ -1,5 +1,5 @@
 const ethers = require("ethers");
-const getDepositHandler = require("../handlers/getDepositHandler");
+const getDepositHandler = require("../handlers/getTransactionHandler");
 const deposits = require("../service/deposit_service");
 const { findByUserId } = require("../postgres/repositories/wallet_repository");
 
@@ -7,7 +7,7 @@ const getContract = (config, wallet) => {
   return new ethers.Contract(config.contractAddress, config.contractAbi, wallet);
 };
 
-const deposit = ({ config }) => async (senderWallet, amountToSend, walletId) => {
+const deposit = ({ config }) => async (senderWallet, amountToSend, userId) => {
   const date = new Date();
   const basicPayments = await getContract(config, senderWallet);
   const tx = await basicPayments.deposit({
@@ -22,8 +22,11 @@ const deposit = ({ config }) => async (senderWallet, amountToSend, walletId) => 
         const someDeposit = await deposits.create({
           id: tx.hash.toString(),
           amount: parseFloat(amountToSend),
-          wallet_id: walletId,
-          month: date.getMonth(),
+          user_id: userId,
+          receiver_address: tx.to,
+          sender_address: tx.from,
+          day: date.getDate(),
+          month: date.getMonth() + 1,
           year: date.getFullYear(),
         });
         console.log("Persisted deposit", JSON.stringify(someDeposit));
@@ -45,13 +48,11 @@ const deposit = ({ config }) => async (senderWallet, amountToSend, walletId) => 
 };
 
 const getDepositReceipt = ({}) => async userId => {
-  const date = new Date();
   const wallet = await findByUserId(userId);
   if (!wallet) {
     return { status: "error", code: 404, message: `Wallet not found for user with id ${userId}` };
   } else {
-    const walletId = wallet.id;
-    return await deposits.findByWalletId({ walletId, month: date.getMonth(), year: date.getFullYear() });
+    return await deposits.findByUserId({ userId });
   }
 };
 

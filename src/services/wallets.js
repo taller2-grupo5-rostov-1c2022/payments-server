@@ -26,17 +26,17 @@ const getWalletsData = () => () => {
   return accounts.findAll();
 };
 
-const getWalletData = () => index => {
-  return accounts.findById(index);
+const getWalletData = () => walletId => {
+  return accounts.findById(walletId);
 };
 
 const getWalletIdWithUserId = async userId => {
   return (await accounts.findByUserId(userId)).id;
 };
 
-const getWallet = async index => {
+const getWallet = async walletId => {
   const provider = new ethers.providers.InfuraProvider("rinkeby", process.env.INFURA_API_KEY);
-  return new ethers.Wallet((await getWalletData()(index)).private_key, provider);
+  return new ethers.Wallet((await getWalletData()(walletId)).private_key, provider);
 };
 
 module.exports = ({ config }) => ({

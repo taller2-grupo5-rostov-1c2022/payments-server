@@ -4,7 +4,7 @@ function schema() {
       type: "object",
       properties: {
         userId: {
-          type: "integer",
+          type: "string",
         },
       },
     },

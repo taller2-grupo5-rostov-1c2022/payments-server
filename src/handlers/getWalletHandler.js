@@ -6,7 +6,7 @@ function schema() {
       type: "object",
       properties: {
         id: {
-          type: "integer",
+          type: "string",
         },
       },
     },
@@ -19,8 +19,8 @@ function handler({ walletService }) {
     const wallet = await findByUserId(req.params.userId);
     const code = !wallet ? 404 : 200;
     const body = !wallet
-      ? { status: "error", message: `Unable to find wallet with provided user id ${req.params.userId}` }
-      : { status: "success", data: wallet };
+      ? { message: `Unable to find wallet with provided user id ${req.params.userId}` }
+      : wallet;
     reply.code(code).send(body);
   };
 }

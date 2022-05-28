@@ -1,18 +1,18 @@
 const connectionPool = require("../connection_pool");
-const DepositMapper = require("../mapping/deposit_mapper");
+const DepositMapper = require("../mapping/transaction_mapper");
 
-const TABLE_NAME = "DEPOSIT";
+const TABLE_NAME = "TRANSACTION";
 
 const create = async newDeposit => {
   const client = await connectionPool.connectionPool.connect();
 
   try {
     const { rows } = await client.query(
-      "INSERT INTO " + TABLE_NAME + " (ID, WALLET_ID, AMOUNT, MONTH, YEAR) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [newDeposit.id ,newDeposit.wallet_id, newDeposit.amount, newDeposit.month, newDeposit.year],
+      "INSERT INTO " + TABLE_NAME + " (ID, USER_ID, RECEIVER_ADDRESS, SENDER_ADDRESS, AMOUNT, DAY, MONTH, YEAR) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+      [newDeposit.id ,newDeposit.user_id, newDeposit.receiver_address, newDeposit.sender_address, newDeposit.amount, newDeposit.day, newDeposit.month, newDeposit.year],
     );
 
-    return DepositMapper.mapToDeposit(rows[0]);
+    return rows;
   } catch (exception) {
     throw exception;
   } finally {
@@ -26,7 +26,7 @@ const findAll = async () => {
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME);
 
-    return DepositMapper.mapToDepositArray(rows);
+    return rows;
   } catch (exception) {
     throw exception;
   } finally {
@@ -64,18 +64,18 @@ const remove = async id => {
   }
 };
 
-const findByWalletId = async ({ walletId, month, year }) => {
+const findByUserId = async ({ userId }) => {
   const client = await connectionPool.connectionPool.connect();
 
-  console.log(walletId, month, year);
+  console.log(userId);
   try {
     const { rows } = await client.query(
-      "SELECT * FROM " + TABLE_NAME + " WHERE WALLET_ID = $1 AND MONTH = $2 AND YEAR = $3",
-      [walletId, month, year],
+      "SELECT * FROM " + TABLE_NAME + " WHERE USER_ID = $1",
+      [userId],
     );
 
     if (rows[0]) {
-      return { status: "success", data: rows };
+      return rows;
     } else {
       return { status: "error", code: 404, message: "Unable to find deposit" };
     }
@@ -90,6 +90,6 @@ module.exports = {
   create,
   findAll,
   findById,
-  findByWalletId,
+  findByUserId,
   remove,
 };

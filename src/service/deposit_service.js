@@ -1,4 +1,4 @@
-const DepositRepository = require("../postgres/repositories/deposit_repository");
+const DepositRepository = require("../postgres/repositories/transaction_repository");
 
 const findAll = async () =>
   wrapWithUnknownError(() => DepositRepository.findAll(), "Unable to find all deposits due to unknown error");
@@ -18,15 +18,15 @@ const wrapWithUnknownError = (process, message) =>
     return { kind: "UNKNOWN_ERROR", message };
   });
 
-const findByWalletId = async ({ walletId, month, year }) =>
+const findByUserId = async ({ userId }) =>
   wrapWithUnknownError(
-    () => DepositRepository.findByWalletId({ walletId, month, year }),
+    () => DepositRepository.findByUserId({ userId }),
     `Unable to find deposit due to unknown error`,
   );
 
 module.exports = {
   findAll,
   findById,
-  findByWalletId,
+  findByUserId,
   create,
 };
