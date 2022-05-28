@@ -59,4 +59,11 @@ function getDepositsRoute({ services, config }) {
   };
 }
 
-module.exports = [getWalletDataRoute, getWalletsDataRoute, createWalletRoute, createDepositRoute, getUserDepositRoute, getDepositsRoute];
+module.exports = [
+  getWalletDataRoute,
+  getWalletsDataRoute,
+  createWalletRoute,
+  createDepositRoute,
+  getUserDepositRoute,
+  getDepositsRoute,
+];

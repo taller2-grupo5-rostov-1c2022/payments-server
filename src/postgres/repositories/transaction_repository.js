@@ -7,8 +7,19 @@ const create = async newDeposit => {
 
   try {
     const { rows } = await client.query(
-      "INSERT INTO " + TABLE_NAME + " (ID, USER_ID, RECEIVER_ADDRESS, SENDER_ADDRESS, AMOUNT, DAY, MONTH, YEAR) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
-      [newDeposit.id ,newDeposit.user_id, newDeposit.receiver_address, newDeposit.sender_address, newDeposit.amount, newDeposit.day, newDeposit.month, newDeposit.year],
+      "INSERT INTO " +
+        TABLE_NAME +
+        " (ID, USER_ID, RECEIVER_ADDRESS, SENDER_ADDRESS, AMOUNT, DAY, MONTH, YEAR) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+      [
+        newDeposit.id,
+        newDeposit.user_id,
+        newDeposit.receiver_address,
+        newDeposit.sender_address,
+        newDeposit.amount,
+        newDeposit.day,
+        newDeposit.month,
+        newDeposit.year,
+      ],
     );
 
     return rows;
@@ -67,10 +78,7 @@ const findByUserId = async ({ userId }) => {
   const client = await connectionPool.connectionPool.connect();
 
   try {
-    const { rows } = await client.query(
-      "SELECT * FROM " + TABLE_NAME + " WHERE USER_ID = $1",
-      [userId],
-    );
+    const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE USER_ID = $1", [userId]);
 
     if (rows[0]) {
       return rows;

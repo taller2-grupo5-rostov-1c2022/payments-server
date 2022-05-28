@@ -27,11 +27,7 @@ function handler({ contractInteraction, walletService }) {
         },
       };
     }
-    return await contractInteraction.deposit(
-      await walletService.getWallet(walletId),
-      req.body.amountInEthers,
-      userId,
-    );
+    return await contractInteraction.deposit(await walletService.getWallet(walletId), req.body.amountInEthers, userId);
   };
 }
 

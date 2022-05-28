@@ -10,7 +10,10 @@ const findById = async idDeposit =>
   );
 
 const create = async newTransaction =>
-  wrapWithUnknownError(() => TransactionDepository.create(newTransaction), `Unable to create deposit due to unknown error`);
+  wrapWithUnknownError(
+    () => TransactionDepository.create(newTransaction),
+    `Unable to create deposit due to unknown error`,
+  );
 
 const wrapWithUnknownError = (process, message) =>
   process().catch(err => {

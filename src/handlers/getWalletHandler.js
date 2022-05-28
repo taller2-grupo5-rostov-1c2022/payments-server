@@ -18,9 +18,7 @@ function handler({ walletService }) {
   return async function (req, reply) {
     const wallet = await findByUserId(req.params.userId);
     const code = !wallet ? 404 : 200;
-    const body = !wallet
-      ? { message: `Unable to find wallet with provided user id ${req.params.userId}` }
-      : wallet;
+    const body = !wallet ? { message: `Unable to find wallet with provided user id ${req.params.userId}` } : wallet;
     reply.code(code).send(body);
   };
 }
