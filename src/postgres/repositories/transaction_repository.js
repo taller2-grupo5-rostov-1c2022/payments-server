@@ -1,5 +1,4 @@
 const connectionPool = require("../connection_pool");
-const DepositMapper = require("../mapping/transaction_mapper");
 
 const TABLE_NAME = "TRANSACTION";
 
@@ -41,7 +40,7 @@ const findById = async id => {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE ID = $1", [id]);
 
     if (rows[0]) {
-      return DepositMapper.mapToDeposit(rows[0]);
+      return rows[0];
     } else {
       return null;
     }

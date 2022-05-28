@@ -1,6 +1,6 @@
 const ethers = require("ethers");
 const getDepositHandler = require("../handlers/getTransactionHandler");
-const deposits = require("../service/deposit_service");
+const deposits = require("../service/transaction_service");
 const { findByUserId } = require("../postgres/repositories/wallet_repository");
 
 const getContract = (config, wallet) => {

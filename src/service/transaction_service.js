@@ -1,16 +1,16 @@
-const DepositRepository = require("../postgres/repositories/transaction_repository");
+const TransactionDepository = require("../postgres/repositories/transaction_repository");
 
 const findAll = async () =>
-  wrapWithUnknownError(() => DepositRepository.findAll(), "Unable to find all deposits due to unknown error");
+  wrapWithUnknownError(() => TransactionDepository.findAll(), "Unable to find all deposits due to unknown error");
 
 const findById = async idDeposit =>
   wrapWithUnknownError(
-    () => DepositRepository.findById(idDeposit),
+    () => TransactionDepository.findById(idDeposit),
     `Unable to find deposit ${idDeposit} due to unknown error`,
   );
 
-const create = async newDeposit =>
-  wrapWithUnknownError(() => DepositRepository.create(newDeposit), `Unable to create deposit due to unknown error`);
+const create = async newTransaction =>
+  wrapWithUnknownError(() => TransactionDepository.create(newTransaction), `Unable to create deposit due to unknown error`);
 
 const wrapWithUnknownError = (process, message) =>
   process().catch(err => {
@@ -20,7 +20,7 @@ const wrapWithUnknownError = (process, message) =>
 
 const findByUserId = async ({ userId }) =>
   wrapWithUnknownError(
-    () => DepositRepository.findByUserId({ userId }),
+    () => TransactionDepository.findByUserId({ userId }),
     `Unable to find deposit due to unknown error`,
   );
 

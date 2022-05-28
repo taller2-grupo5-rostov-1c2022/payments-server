@@ -1,5 +1,4 @@
 const connectionPool = require("../connection_pool");
-const WalletMapper = require("../mapping/wallet_mapper");
 
 const TABLE_NAME = "WALLET";
 
@@ -12,7 +11,7 @@ const create = async newWallet => {
       [newWallet.user_id, newWallet.private_key, newWallet.address],
     );
 
-    return WalletMapper.mapToWallet(rows[0]);
+    return rows[0];
   } catch (exception) {
     throw exception;
   } finally {
@@ -26,7 +25,7 @@ const findAll = async () => {
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME);
 
-    return WalletMapper.mapToWalletArray(rows);
+    return rows;
   } catch (exception) {
     throw exception;
   } finally {
@@ -39,11 +38,9 @@ const findById = async id => {
 
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE ID = $1", [id]);
-    console.log("wallet_repository found ", JSON.stringify(rows));
 
     if (rows[0]) {
-      console.log("wallet_repository will return ", JSON.stringify(WalletMapper.mapToWallet(rows[0])));
-      return WalletMapper.mapToWallet(rows[0]);
+      return rows[0];
     } else {
       return null;
     }
@@ -60,11 +57,8 @@ const findByUserId = async userId => {
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE USER_ID = $1", [userId]);
 
-    console.log("wallet_repository found", JSON.stringify(rows));
-
     if (rows[0]) {
-      console.log("wallet_repository will return", JSON.stringify(WalletMapper.mapToWallet(rows[0])));
-      return WalletMapper.mapToWallet(rows[0]);
+      return rows[0];
     } else {
       return null;
     }
