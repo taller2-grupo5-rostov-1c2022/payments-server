@@ -1,5 +1,6 @@
 const ethers = require("ethers");
-const accounts = require("../service/wallet_service");
+const wallets = require("../service/wallet_service");
+const config = require("../config");
 
 const getDeployerWallet = ({ config }) => () => {
   const provider = new ethers.providers.InfuraProvider(config.network, config.infuraApiKey);
@@ -9,12 +10,12 @@ const getDeployerWallet = ({ config }) => () => {
 };
 
 const createWallet = () => async userId => {
-  const provider = new ethers.providers.InfuraProvider("rinkeby", process.env.INFURA_API_KEY);
+  const provider = new ethers.providers.InfuraProvider(config.network, process.env.INFURA_API_KEY);
   // This may break in some environments, keep an eye on it
   const wallet = ethers.Wallet.createRandom().connect(provider);
-  const walletsCount = (await accounts.countWallet()) + 1;
+  const walletsCount = (await wallets.countWallet()) + 1;
 
-  return await accounts.create({
+  return await wallets.create({
     id: walletsCount.toString(),
     user_id: userId,
     address: wallet.address,
@@ -23,15 +24,15 @@ const createWallet = () => async userId => {
 };
 
 const getWalletsData = () => () => {
-  return accounts.findAll();
+  return wallets.findAll();
 };
 
 const getWalletData = () => walletId => {
-  return accounts.findById(walletId);
+  return wallets.findById(walletId);
 };
 
 const getWalletIdWithUserId = async userId => {
-  return (await accounts.findByUserId(userId)).id;
+  return (await wallets.findByUserId(userId)).id;
 };
 
 const getWallet = async walletId => {
