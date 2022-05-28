@@ -17,93 +17,154 @@ Once you have that in place, you can install the dependencies with npm through `
 
 The following endpoints are available:
 
-- Create wallet: POST /wallet - No body
-- Get wallets: GET /wallet
-- Get wallet: GET /wallet/:id:
-- Deposit ethers into the Smart contract: POST /deposit - Body params: senderId(integer), amountInEthers(string)
-- Get deposit receipt: GET /deposit/:txHash:
-
-## Usage example
-
-```sh
-$ http POST http://localhost:3000/wallet
-HTTP/1.1 200 OK
-Connection: keep-alive
-Date: Sun, 08 Aug 2021 19:26:53 GMT
-Keep-Alive: timeout=5
-content-length: 145
-content-type: application/json; charset=utf-8
-
-{
-    "address": "0x7E039A00fFFD8d8C898e77e52351c799C99D3a2D",
-    "id": 1,
-    "privateKey": "0x67bb00f89f7b50f9e2924e423d00889c627b9acdc20b738ce00ccdcf6e4b8da0"
-}
-
-$ http POST http://localhost:3000/wallet
-HTTP/1.1 200 OK
-Connection: keep-alive
-Date: Sun, 08 Aug 2021 19:26:54 GMT
-Keep-Alive: timeout=5
-content-length: 145
-content-type: application/json; charset=utf-8
-
-{
-    "address": "0x6698F9b4c67AeDAcd728297F2bF9eC15993398a4",
-    "id": 2,
-    "privateKey": "0x7d7b4134704871ea90bc417a9fb21d8e643e076bd67f1253189e75181258c500"
-}
-
-$ http POST http://localhost:3000/deposit senderId=1 amountInEthers='0.01'
-HTTP/1.1 200 OK
-Connection: keep-alive
-Date: Sun, 08 Aug 2021 19:27:38 GMT
-Keep-Alive: timeout=5
-content-length: 538
-content-type: application/json; charset=utf-8
-
-{
-    "chainId": 4,
-    "data": "0xd0e30db0",
-    "from": "0x7E039A00fFFD8d8C898e77e52351c799C99D3a2D",
-    "gasLimit": {
-        "hex": "0xb044",
-        "type": "BigNumber"
-    },
-    "gasPrice": {
-        "hex": "0x3b9aca08",
-        "type": "BigNumber"
-    },
-    "hash": "0x9f98447de34d3245ce1976956334336a6302befc4f204ac44a7cac0526caa82d",
-    "nonce": 0,
-    "r": "0xc78a2f0914988bb37e62c16ffb91ae0335d39fd3dc246fd0c269dbaf0b331589",
-    "s": "0x423f245bcc46c872404b43c34fcb789cb0d3befdd44ec928b96bb25a5a887762",
-    "to": "0x76b8DA0BB9b9981403586A574d10fA783f08Aa05",
-    "type": null,
-    "v": 44,
-    "value": {
-        "hex": "0x2386f26fc10000",
-        "type": "BigNumber"
-    }
-}
-
-$ http GET http://localhost:3000/deposit/0x9f98447de34d3245ce1976956334336a6302befc4f204ac44a7cac0526caa82d
-HTTP/1.1 200 OK
-Connection: keep-alive
-Date: Sun, 08 Aug 2021 19:28:00 GMT
-Keep-Alive: timeout=5
-content-length: 121
-content-type: application/json; charset=utf-8
-
-{
-    "amountSent": {
-        "hex": "0x2386f26fc10000",
-        "type": "BigNumber"
-    },
-    "senderAddress": "0x7E039A00fFFD8d8C898e77e52351c799C99D3a2D"
-}
-
+- **Create wallet**
+  - `POST /wallets/:userId`
+    - Path: _userId_ is the id of the user.
+    - Body: empty
+    - Example: `POST /wallets/asd123`
+    - Response: the _address_ property is the address of the wallet for that particular user.
 ```
+{
+    "id": 5,
+    "user_id": "asd123",
+    "private_key": "0x8082e5c8b45ce5698af26a51b314503eb0488d239d49c225e59405373aa1bda9",
+    "address": "0x00Bd8EbEeBEE720cF3Cabe401bc4b96E362B9C61"
+}
+```
+
+- **Get wallets**
+  - `GET /wallets`
+    - Path: empty
+    - Body: empty
+    - Example: `GET /wallets`
+    - Response: the _address_ property is the address of the wallet for that particular user.
+```
+[
+    {
+        "id": 1,
+        "user_id": "1",
+        "private_key": "0x8cd44b554456c3185ba845388b10943a2f36e4f5d9e9ddcfc217f55aa083f18b",
+        "address": "0x95B883F075d438CEA5952c5a7163EF1ED49c4Eda"
+    },
+    {
+        "id": 2,
+        "user_id": "8f4g5f6g",
+        "private_key": "0x2cd9e69a82aa14c796cfdfc499cc429d8ff6ebfdc5994f25cef30ca223da9d51",
+        "address": "0xCe52D4545A36c1366e21B86Cf8040Bd307b6318F"
+    },
+    {
+        "id": 3,
+        "user_id": "facu1",
+        "private_key": "0xafd5ea47258633c390cfbe9235720423495c03900101e083b4bfb2c19caa2653",
+        "address": "0xaa994f63f812A136158aC937aCC806E40b85739d"
+    },
+    {
+        "id": 5,
+        "user_id": "asd123",
+        "private_key": "0x8082e5c8b45ce5698af26a51b314503eb0488d239d49c225e59405373aa1bda9",
+        "address": "0x00Bd8EbEeBEE720cF3Cabe401bc4b96E362B9C61"
+    }
+]
+```
+- **Get wallet from specific user**
+  - `GET /wallets/:userId`
+    - Path: _userId_ is the id of the user.
+    - Body: empty
+    - Example: `GET /wallets/asd123`
+    - Response: the _address_ property is the address of the wallet for that particular user.
+```
+{
+    "id": 5,
+    "user_id": "asd123",
+    "private_key": "0x8082e5c8b45ce5698af26a51b314503eb0488d239d49c225e59405373aa1bda9",
+    "address": "0x00Bd8EbEeBEE720cF3Cabe401bc4b96E362B9C61"
+}
+```
+- **Deposit ethers _into the Smart contract_**
+  - `POST /deposit/:userId`
+    - Path: _userId_ is the id of the user.
+    - Body: _amountInEthers_ is the amount of ethers to deposit as a string. `{
+    "amountInEthers": "0.0001"
+}`
+    - Example: `POST /deposit/asd123`
+    - Response: transaction receipt. _from_ property should be the address of the wallet for that _userId_
+```
+{
+    "nonce": 2,
+    "gasPrice": {
+        "type": "BigNumber",
+        "hex": "0x4190ab08"
+    },
+    "gasLimit": {
+        "type": "BigNumber",
+        "hex": "0x6d78"
+    },
+    "to": "0xE9f7F026355d691238F628Cd8BCBb39Bf7F4f8E2",
+    "value": {
+        "type": "BigNumber",
+        "hex": "0x5af3107a4000"
+    },
+    "data": "0xd0e30db0",
+    "chainId": 4,
+    "v": 43,
+    "r": "0xc8fc145f611e8e5552374c3dedc2f588458d7214a523b095d70f5478bf06bdf8",
+    "s": "0x0ff83c7c81028bfa59aa8375b489daaa77787aa80ba4d7421a1ea09621abc607",
+    "from": "0xaa994f63f812A136158aC937aCC806E40b85739d",
+    "hash": "0xcc9c8acb976d44bc96e4a10f6c89d7431ab5e08fc681db5a6e682c213ab5c101"
+}
+```
+
+- **Get transactions**
+  - GET /transactions
+    - Path: empty
+    - Body: empty
+    - Example: `GET /transactions`
+    - Response example: _id_ represents the tx's hash.
+```
+[
+    {
+        "id": "0x8d9f054f2bae4c5a3a243c6878a47e31dc5e63d55dfa144964ccb59711e5653d",
+        "user_id": "facu1",
+        "receiver_address": "0xE9f7F026355d691238F628Cd8BCBb39Bf7F4f8E2",
+        "sender_address": "0xaa994f63f812A136158aC937aCC806E40b85739d",
+        "amount": 0.0001,
+        "day": 28,
+        "month": 5,
+        "year": 2022
+    },
+    {
+        "id": "0xcc9c8acb976d44bc96e4a10f6c89d7431ab5e08fc681db5a6e682c213ab5c101",
+        "user_id": "facu1",
+        "receiver_address": "0xE9f7F026355d691238F628Cd8BCBb39Bf7F4f8E2",
+        "sender_address": "0xaa994f63f812A136158aC937aCC806E40b85739d",
+        "amount": 0.0001,
+        "day": 28,
+        "month": 5,
+        "year": 2022
+    }
+]
+```
+- **Get transactions from specific user**
+  - `GET /transactions/:userId`
+    - Path: _userId_ is the id of the user.
+    - Body: empty
+    - Example: `GET /transactions/asd123`
+    - Response example: _id_ represents the tx's hash.
+```
+[
+    {
+        "id": "0x8d9f054f2bae4c5a3a243c6878a47e31dc5e63d55dfa144964ccb59711e5653d",
+        "user_id": "asd123",
+        "receiver_address": "0xE9f7F026355d691238F628Cd8BCBb39Bf7F4f8E2",
+        "sender_address": "0xaa994f63f812A136158aC937aCC806E40b85739d",
+        "amount": 0.0001,
+        "day": 28,
+        "month": 5,
+        "year": 2022
+    }
+]
+```
+
 
 ## Heroku
 
