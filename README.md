@@ -23,7 +23,7 @@ The following endpoints are available:
     - Body: empty
     - Example: `POST /wallets/asd123`
     - Response: the _address_ property is the address of the wallet for that particular user.
-```
+```json
 {
     "id": 5,
     "user_id": "asd123",
@@ -38,7 +38,7 @@ The following endpoints are available:
     - Body: empty
     - Example: `GET /wallets`
     - Response: the _address_ property is the address of the wallet for that particular user.
-```
+```json
 [
     {
         "id": 1,
@@ -72,7 +72,7 @@ The following endpoints are available:
     - Body: empty
     - Example: `GET /wallets/asd123`
     - Response: the _address_ property is the address of the wallet for that particular user.
-```
+```json
 {
     "id": 5,
     "user_id": "asd123",
@@ -80,6 +80,7 @@ The following endpoints are available:
     "address": "0x00Bd8EbEeBEE720cF3Cabe401bc4b96E362B9C61"
 }
 ```
+
 - **Deposit ethers _into the Smart contract_**
   - `POST /deposit/:userId`
     - Path: _userId_ is the id of the user.
@@ -88,7 +89,7 @@ The following endpoints are available:
 }`
     - Example: `POST /deposit/asd123`
     - Response: transaction receipt. _from_ property should be the address of the wallet for that _userId_
-```
+```json
 {
     "nonce": 2,
     "gasPrice": {
@@ -120,7 +121,7 @@ The following endpoints are available:
     - Body: empty
     - Example: `GET /transactions`
     - Response example: _id_ represents the tx's hash.
-```
+```json
 [
     {
         "id": "0x8d9f054f2bae4c5a3a243c6878a47e31dc5e63d55dfa144964ccb59711e5653d",
@@ -150,7 +151,8 @@ The following endpoints are available:
     - Body: empty
     - Example: `GET /transactions/asd123`
     - Response example: _id_ represents the tx's hash.
-```
+
+```json
 [
     {
         "id": "0x8d9f054f2bae4c5a3a243c6878a47e31dc5e63d55dfa144964ccb59711e5653d",

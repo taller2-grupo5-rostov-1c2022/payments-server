@@ -66,7 +66,6 @@ const remove = async id => {
 const findByUserId = async ({ userId }) => {
   const client = await connectionPool.connectionPool.connect();
 
-  console.log(userId);
   try {
     const { rows } = await client.query(
       "SELECT * FROM " + TABLE_NAME + " WHERE USER_ID = $1",
