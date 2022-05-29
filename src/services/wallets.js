@@ -1,5 +1,5 @@
 const ethers = require("ethers");
-const wallets = require("../service/wallet_service");
+const wallets = require("./wallet_service");
 const config = require("../config");
 
 const WELCOME_AMOUNT = "0.001";
