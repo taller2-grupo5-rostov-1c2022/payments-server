@@ -29,12 +29,7 @@ function handler({ contractInteraction, walletService }) {
     }
     const deployerWallet = await walletService.getDeployerWallet();
     const receiverWallet = await walletService.getWallet(walletId);
-    return await contractInteraction.pay(
-      deployerWallet,
-      receiverWallet.address,
-      req.body.amountInEthers,
-      userId,
-    );
+    return await contractInteraction.pay(deployerWallet, receiverWallet.address, req.body.amountInEthers, userId);
   };
 }
 

@@ -169,6 +169,39 @@ The following endpoints are available:
 ]
 ```
 
+- **Make payment to specific user**
+  - `POST api/v1/pay/:userId`
+    - Path: _userId_ is the id of the user.
+    - Body: _amountInEthers_ is the amount of ethers to deposit as a string. `{"amountInEthers": "0.0001"}`
+    - Example: `POST /pay/asd123`
+    - Response example: _id_ represents the tx's hash, _to_ is the address of the receiver, _from_ is the address of the sender.
+```json
+{
+    "nonce": 9,
+    "gasPrice": {
+        "type": "BigNumber",
+        "hex": "0x3c6b6cca"
+    },
+    "gasLimit": {
+        "type": "BigNumber",
+        "hex": "0x919f"
+    },
+    "to": "0xaa994f63f812A136158aC937aCC806E40b85739d",
+    "value": {
+        "type": "BigNumber",
+        "hex": "0x00"
+    },
+    "data": "0x935f4c18000000000000000000000000aa994f63f812a136158ac937acc806e40b85739d000000000000000000000000000000000000000000000000002386f26fc10000",
+    "chainId": 4,
+    "v": 44,
+    "r": "0x757a11857014df7a6efcc444e6857891c8a3a74e575361e442208c227c7c57ba",
+    "s": "0x68929ce2f7b530535a813b6aeb2a1da630efa842e359e4ec4c6480f4ad9a736c",
+    "from": "0xE9f7F026355d691238F628Cd8BCBb39Bf7F4f8E2",
+    "hash": "0x342d49c9ee513ffefebdb9120abce0eb9045bb5040ce337a228cba2851b3a53e"
+}
+```
+
+
 
 ## Heroku
 
@@ -210,8 +243,6 @@ Keep in mind that you have to set the following variables in a `.env` file in th
 
 This repository already contains these variables set as actions secrets and the deployment pipeline generates a `.env`
 file with those secrets.
-
-```
 
 ### Testing
 

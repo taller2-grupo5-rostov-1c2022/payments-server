@@ -63,7 +63,7 @@ const sendWelcomeGift = async (provider, newWallet) => {
       console.error(`Payment not created in tx ${tx.hash}`);
     }
   });
-}
+};
 
 module.exports = ({ config }) => ({
   createWallet: createWallet({ config }),

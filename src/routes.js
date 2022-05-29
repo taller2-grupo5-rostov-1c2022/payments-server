@@ -6,28 +6,28 @@ const getDeposit = require("./handlers/getTransactionHandler");
 const getDeposits = require("./handlers/getTransactionsHandler");
 const createPayment = require("./handlers/createPaymentHandler");
 
-function getWalletDataRoute({ services, config }) {
-  return {
-    method: "GET",
-    url: "/wallets/:userId",
-    schema: getWalletData.schema(config),
-    handler: getWalletData.handler({ config, ...services }),
-  };
-}
-
 function getWalletsDataRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/wallets",
+    url: "/api/v1/wallets",
     schema: getWalletsData.schema(config),
     handler: getWalletsData.handler({ config, ...services }),
+  };
+}
+
+function getWalletDataRoute({ services, config }) {
+  return {
+    method: "GET",
+    url: "/api/v1/wallets/:userId",
+    schema: getWalletData.schema(config),
+    handler: getWalletData.handler({ config, ...services }),
   };
 }
 
 function createWalletRoute({ services, config }) {
   return {
     method: "POST",
-    url: "/wallets/:userId",
+    url: "/api/v1/wallets/:userId",
     schema: createWallet.schema(config),
     handler: createWallet.handler({ config, ...services }),
   };
@@ -36,7 +36,7 @@ function createWalletRoute({ services, config }) {
 function createDepositRoute({ services, config }) {
   return {
     method: "POST",
-    url: "/deposit/:userId",
+    url: "/api/v1/deposit/:userId",
     schema: createDeposit.schema(config),
     handler: createDeposit.handler({ config, ...services }),
   };
@@ -45,16 +45,16 @@ function createDepositRoute({ services, config }) {
 function getUserDepositRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/transactions/:userId",
+    url: "/api/v1/transactions/:userId",
     schema: getDeposit.schema(config),
     handler: getDeposit.handler({ config, ...services }),
   };
 }
 
-function getDepositsRoute({ services, config }) {
+function getTransactionsRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/transactions",
+    url: "/api/v1/transactions",
     schema: getDeposits.schema(config),
     handler: getDeposits.handler({ config, ...services }),
   };
@@ -63,7 +63,7 @@ function getDepositsRoute({ services, config }) {
 function createPaymentRoute({ services, config }) {
   return {
     method: "POST",
-    url: "/pay/:userId",
+    url: "/api/v1/pay/:userId",
     schema: createPayment.schema(config),
     handler: createPayment.handler({ config, ...services }),
   };
@@ -75,6 +75,6 @@ module.exports = [
   createWalletRoute,
   createDepositRoute,
   getUserDepositRoute,
-  getDepositsRoute,
+  getTransactionsRoute,
   createPaymentRoute,
 ];

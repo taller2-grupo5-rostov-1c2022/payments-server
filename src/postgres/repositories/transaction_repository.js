@@ -79,12 +79,7 @@ const findByUserId = async ({ userId }) => {
 
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE USER_ID = $1", [userId]);
-
-    if (rows[0]) {
-      return rows;
-    } else {
-      return { status: "error", code: 404, message: "Unable to find deposit" };
-    }
+    return rows;
   } catch (exception) {
     throw exception;
   } finally {
