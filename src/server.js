@@ -2,13 +2,10 @@ const config = require("./config");
 const services = require("./services/services")({ config });
 const routes = require("./routes");
 
-// Require the framework and instantiate it
-const fastify = require("fastify")({ logger: true });
+const fastify = require("fastify")({ logger: {prettyPrint: {translateTime: 'HH:MM:ss Z', ignore: 'pid, hostname', colorize: true}} });
 
-// Declares routes
 routes.forEach(route => fastify.route(route({ config, services })));
 
-// Run the server!
 const start = async () => {
   try {
     await fastify.listen(process.env.PORT || 3000, "0.0.0.0");
