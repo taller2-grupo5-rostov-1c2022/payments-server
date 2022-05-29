@@ -18,7 +18,7 @@ Once you have that in place, you can install the dependencies with npm through `
 The following endpoints are available:
 
 - **Create wallet**
-  - `POST /wallets/:userId`
+  - `POST api/v1/wallets/:userId`
     - Path: _userId_ is the id of the user.
     - Body: empty
     - Example: `POST /wallets/asd123`
@@ -33,7 +33,7 @@ The following endpoints are available:
 ```
 
 - **Get wallets**
-  - `GET /wallets`
+  - `GET api/v1/wallets`
     - Path: empty
     - Body: empty
     - Example: `GET /wallets`
@@ -67,7 +67,7 @@ The following endpoints are available:
 ]
 ```
 - **Get wallet from specific user**
-  - `GET /wallets/:userId`
+  - `GET api/v1/wallets/:userId`
     - Path: _userId_ is the id of the user.
     - Body: empty
     - Example: `GET /wallets/asd123`
@@ -82,7 +82,7 @@ The following endpoints are available:
 ```
 
 - **Deposit ethers _into the Smart contract_**
-  - `POST /deposit/:userId`
+  - `POST api/v1/deposit/:userId`
     - Path: _userId_ is the id of the user.
     - Body: _amountInEthers_ is the amount of ethers to deposit as a string. `{
     "amountInEthers": "0.0001"
@@ -116,7 +116,7 @@ The following endpoints are available:
 ```
 
 - **Get transactions**
-  - GET /transactions
+  - GET api/v1/transactions
     - Path: empty
     - Body: empty
     - Example: `GET /transactions`
@@ -146,7 +146,7 @@ The following endpoints are available:
 ]
 ```
 - **Get transactions from specific user**
-  - `GET /transactions/:userId`
+  - `GET api/v1/transactions/:userId`
     - Path: _userId_ is the id of the user.
     - Body: empty
     - Example: `GET /transactions/asd123`

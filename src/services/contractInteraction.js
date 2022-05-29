@@ -1,6 +1,5 @@
 const ethers = require("ethers");
-const getDepositHandler = require("../handlers/getTransactionHandler");
-const deposits = require("../service/transaction_service");
+const transactions = require("../service/transaction_service");
 const { findByUserId } = require("../postgres/repositories/wallet_repository");
 
 const getContract = (config, wallet) => {
@@ -19,7 +18,7 @@ const deposit = ({ config }) => async (senderWallet, amountToSend, userId) => {
       const firstEvent = receipt && receipt.events && receipt.events[0];
       console.log(firstEvent);
       if (firstEvent && firstEvent.event == "DepositMade") {
-        const someDeposit = await deposits.create({
+        const someDeposit = await transactions.create({
           id: tx.hash.toString(),
           amount: parseFloat(amountToSend),
           user_id: userId,
@@ -47,16 +46,55 @@ const deposit = ({ config }) => async (senderWallet, amountToSend, userId) => {
   return tx;
 };
 
+const pay = ({ config }) => async (systemWallet, receiverAddress, amountToSend, userId) => {
+  const date = new Date();
+  const basicPayments = await getContract(config, systemWallet);
+  const tx = await basicPayments.sendPayment(receiverAddress, ethers.utils.parseEther(amountToSend).toHexString());
+  tx.wait(1).then(
+    async receipt => {
+      console.log("Transaction mined");
+      const firstEvent = receipt && receipt.events && receipt.events[0];
+      console.log(firstEvent);
+      if (firstEvent && firstEvent.event == "PaymentMade") {
+        const somePayment = await transactions.create({
+          id: tx.hash.toString(),
+          amount: parseFloat(amountToSend),
+          user_id: userId,
+          receiver_address: receiverAddress,
+          sender_address: config.contractAddress,
+          day: date.getDate(),
+          month: date.getMonth() + 1,
+          year: date.getFullYear(),
+        });
+        console.log("Persisted deposit", JSON.stringify(somePayment));
+      } else {
+        console.error(`Payment not created in tx ${tx.hash}`);
+      }
+    },
+    error => {
+      const reasonsList = error.results && Object.values(error.results).map(o => o.reason);
+      const message = error instanceof Object && "message" in error ? error.message : JSON.stringify(error);
+      console.error("reasons List");
+      console.error(reasonsList);
+
+      console.error("message");
+      console.error(message);
+    },
+  );
+  return tx;
+};
+
 const getDepositReceipt = ({}) => async userId => {
   const wallet = await findByUserId(userId);
   if (!wallet) {
     return { status: "error", code: 404, message: `Wallet not found for user with id ${userId}` };
   } else {
-    return await deposits.findByUserId({ userId });
+    return await transactions.findByUserId({ userId });
   }
 };
 
 module.exports = dependencies => ({
   deposit: deposit(dependencies),
   getDepositReceipt: getDepositReceipt(dependencies),
+  pay: pay(dependencies),
 });
