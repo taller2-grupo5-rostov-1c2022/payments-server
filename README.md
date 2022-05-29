@@ -13,6 +13,8 @@ To install the project we recommend that you use NVM and install the node versio
 
 Once you have that in place, you can install the dependencies with npm through `npm i`
 
+Check out the SC in [Etherscan](https://rinkeby.etherscan.io/address/0xe9f7f026355d691238f628cd8bcbb39bf7f4f8e2)
+
 ## API Documentation
 
 The following endpoints are available:

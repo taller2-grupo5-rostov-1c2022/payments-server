@@ -2,6 +2,12 @@ const ethers = require("ethers");
 const wallets = require("../service/wallet_service");
 const config = require("../config");
 
+const WELCOME_AMOUNT = "0.001";
+
+const getContract = (config, wallet) => {
+  return new ethers.Contract(config.contractAddress, config.contractAbi, wallet);
+};
+
 const getDeployerWallet = ({ config }) => () => {
   const provider = new ethers.providers.InfuraProvider(config.network, config.infuraApiKey);
   const wallet = ethers.Wallet.fromMnemonic(config.deployerMnemonic).connect(provider);
@@ -14,13 +20,14 @@ const createWallet = () => async userId => {
   // This may break in some environments, keep an eye on it
   const wallet = ethers.Wallet.createRandom().connect(provider);
   const walletsCount = (await wallets.countWallet()) + 1;
-
-  return await wallets.create({
+  const result = await wallets.create({
     id: walletsCount.toString(),
     user_id: userId,
     address: wallet.address,
     private_key: wallet.privateKey,
   });
+  await sendWelcomeGift(provider, wallet);
+  return result;
 };
 
 const getWalletsData = () => () => {
@@ -39,6 +46,24 @@ const getWallet = async walletId => {
   const provider = new ethers.providers.InfuraProvider("rinkeby", process.env.INFURA_API_KEY);
   return new ethers.Wallet((await getWalletData()(walletId)).private_key, provider);
 };
+
+const sendWelcomeGift = async (provider, newWallet) => {
+  const walletDeployer = await ethers.Wallet.fromMnemonic(config.deployerMnemonic).connect(provider);
+  const basicPayments = getContract(config, walletDeployer);
+  const tx = await basicPayments.sendPayment(
+    newWallet.address,
+    ethers.utils.parseEther(WELCOME_AMOUNT.toString()).toHexString(),
+  );
+  tx.wait(1).then(receipt => {
+    console.log("\nTransaction mined.\n");
+    const firstEvent = receipt && receipt.events && receipt.events[0];
+    if (firstEvent && firstEvent.event == "PaymentMade") {
+      console.log("Payment has been correctly made.");
+    } else {
+      console.error(`Payment not created in tx ${tx.hash}`);
+    }
+  });
+}
 
 module.exports = ({ config }) => ({
   createWallet: createWallet({ config }),

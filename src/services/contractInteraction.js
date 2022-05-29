@@ -81,6 +81,8 @@ const pay = ({ config }) => async (systemWallet, receiverAddress, amountToSend, 
       console.error(message);
     },
   );
+  tx.to = receiverAddress;
+  tx.from = config.contractAddress;
   return tx;
 };
 
