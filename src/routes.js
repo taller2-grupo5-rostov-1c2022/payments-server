@@ -6,10 +6,12 @@ const getDeposit = require("./handlers/getTransactionHandler");
 const getDeposits = require("./handlers/getTransactionsHandler");
 const createPayment = require("./handlers/createPaymentHandler");
 
+const API_PREFIX = "/api/v1";
+
 function getWalletsDataRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/api/v1/wallets",
+    url: API_PREFIX + "/wallets",
     schema: getWalletsData.schema(config),
     handler: getWalletsData.handler({ config, ...services }),
   };
@@ -18,7 +20,7 @@ function getWalletsDataRoute({ services, config }) {
 function getWalletDataRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/api/v1/wallets/:userId",
+    url: API_PREFIX + "/wallets/:userId",
     schema: getWalletData.schema(config),
     handler: getWalletData.handler({ config, ...services }),
   };
@@ -27,7 +29,7 @@ function getWalletDataRoute({ services, config }) {
 function createWalletRoute({ services, config }) {
   return {
     method: "POST",
-    url: "/api/v1/wallets/:userId",
+    url: API_PREFIX + "/wallets/:userId",
     schema: createWallet.schema(config),
     handler: createWallet.handler({ config, ...services }),
   };
@@ -36,7 +38,7 @@ function createWalletRoute({ services, config }) {
 function createDepositRoute({ services, config }) {
   return {
     method: "POST",
-    url: "/api/v1/deposit/:userId",
+    url: API_PREFIX + "/deposit/:userId",
     schema: createDeposit.schema(config),
     handler: createDeposit.handler({ config, ...services }),
   };
@@ -45,7 +47,7 @@ function createDepositRoute({ services, config }) {
 function getUserDepositRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/api/v1/transactions/:userId",
+    url: API_PREFIX + "/transactions/:userId",
     schema: getDeposit.schema(config),
     handler: getDeposit.handler({ config, ...services }),
   };
@@ -54,7 +56,7 @@ function getUserDepositRoute({ services, config }) {
 function getTransactionsRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/api/v1/transactions",
+    url: API_PREFIX + "/transactions",
     schema: getDeposits.schema(config),
     handler: getDeposits.handler({ config, ...services }),
   };
@@ -63,7 +65,7 @@ function getTransactionsRoute({ services, config }) {
 function createPaymentRoute({ services, config }) {
   return {
     method: "POST",
-    url: "/api/v1/pay/:userId",
+    url: API_PREFIX + "/pay/:userId",
     schema: createPayment.schema(config),
     handler: createPayment.handler({ config, ...services }),
   };
