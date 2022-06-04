@@ -13,6 +13,7 @@ docs/
 .vscode/
 src/
 deployments/
+postgres-data/
 
 # files
 .solcover.js

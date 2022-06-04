@@ -1,21 +1,25 @@
+const { findByUserId } = require("../postgres/repositories/walletRepository");
+
 function schema() {
   return {
     params: {
       type: "object",
       properties: {
         id: {
-          type: "integer",
+          type: "string",
         },
       },
     },
-    required: ["id"],
+    required: ["userId"],
   };
 }
 
 function handler({ walletService }) {
   return async function (req, reply) {
-    const body = await walletService.getWalletData(req.params.id);
-    reply.code(200).send(body);
+    const wallet = await findByUserId(req.params.userId);
+    const code = !wallet ? 404 : 200;
+    const body = !wallet ? { message: `Unable to find wallet with provided user id ${req.params.userId}` } : wallet;
+    reply.code(code).send(body);
   };
 }
 

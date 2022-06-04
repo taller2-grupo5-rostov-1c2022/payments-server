@@ -27,7 +27,9 @@ function handler({ contractInteraction, walletService }) {
         },
       };
     }
-    return await contractInteraction.deposit(await walletService.getWallet(walletId), req.body.amountInEthers, userId);
+    const deployerWallet = await walletService.getDeployerWallet();
+    const receiverWallet = await walletService.getWallet(walletId);
+    return await contractInteraction.pay(deployerWallet, receiverWallet.address, req.body.amountInEthers, userId);
   };
 }
 
