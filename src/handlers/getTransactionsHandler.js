@@ -1,4 +1,4 @@
-const { findAll } = require("../postgres/repositories/transaction_repository");
+const { findAll } = require("../postgres/repositories/transactionRepository");
 
 function schema() {
   return {

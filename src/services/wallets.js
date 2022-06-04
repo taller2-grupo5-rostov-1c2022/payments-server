@@ -1,5 +1,5 @@
 const ethers = require("ethers");
-const wallets = require("./wallet_service");
+const wallets = require("./walletService");
 const config = require("../config");
 
 const WELCOME_AMOUNT = "0.001";
@@ -26,7 +26,9 @@ const createWallet = () => async userId => {
     address: wallet.address,
     private_key: wallet.privateKey,
   });
-  await sendWelcomeGift(provider, wallet);
+  if (result) {
+    await sendWelcomeGift(provider, wallet);
+  }
   return result;
 };
 

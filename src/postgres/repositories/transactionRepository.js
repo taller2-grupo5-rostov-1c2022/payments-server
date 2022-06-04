@@ -1,17 +1,28 @@
-const connectionPool = require("../connection_pool");
+const connectionPool = require("../connectionPool");
 
-const TABLE_NAME = "WALLET";
+const TABLE_NAME = "TRANSACTION";
 
-const create = async newWallet => {
+const create = async newDeposit => {
   const client = await connectionPool.connectionPool.connect();
 
   try {
     const { rows } = await client.query(
-      "INSERT INTO " + TABLE_NAME + " (USER_ID, PRIVATE_KEY, ADDRESS) VALUES ($1, $2, $3) RETURNING *",
-      [newWallet.user_id, newWallet.private_key, newWallet.address],
+      "INSERT INTO " +
+        TABLE_NAME +
+        " (ID, USER_ID, RECEIVER_ADDRESS, SENDER_ADDRESS, AMOUNT, DAY, MONTH, YEAR) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+      [
+        newDeposit.id,
+        newDeposit.user_id,
+        newDeposit.receiver_address,
+        newDeposit.sender_address,
+        newDeposit.amount,
+        newDeposit.day,
+        newDeposit.month,
+        newDeposit.year,
+      ],
     );
 
-    return rows[0];
+    return rows;
   } catch (exception) {
     throw exception;
   } finally {
@@ -51,24 +62,6 @@ const findById = async id => {
   }
 };
 
-const findByUserId = async userId => {
-  const client = await connectionPool.connectionPool.connect();
-
-  try {
-    const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE USER_ID = $1", [userId]);
-
-    if (rows[0]) {
-      return rows[0];
-    } else {
-      return null;
-    }
-  } catch (exception) {
-    throw exception;
-  } finally {
-    client.release();
-  }
-};
-
 const remove = async id => {
   const client = await connectionPool.connectionPool.connect();
 
@@ -81,17 +74,12 @@ const remove = async id => {
   }
 };
 
-const count = async () => {
+const findByUserId = async ({ userId }) => {
   const client = await connectionPool.connectionPool.connect();
 
   try {
-    const { rows } = await client.query("SELECT COUNT(*) FROM " + TABLE_NAME);
-
-    if (rows[0]) {
-      return rows[0];
-    } else {
-      return null;
-    }
+    const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE USER_ID = $1", [userId]);
+    return rows;
   } catch (exception) {
     throw exception;
   } finally {
@@ -105,5 +93,4 @@ module.exports = {
   findById,
   findByUserId,
   remove,
-  count,
 };

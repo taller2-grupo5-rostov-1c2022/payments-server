@@ -1,4 +1,4 @@
-const WalletRepository = require("../postgres/repositories/wallet_repository");
+const WalletRepository = require("../postgres/repositories/walletRepository");
 
 const findAll = async () =>
   wrapWithUnknownError(() => WalletRepository.findAll(), "Unable to find all wallets due to unknown error");

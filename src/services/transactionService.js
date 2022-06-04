@@ -1,4 +1,4 @@
-const TransactionDepository = require("../postgres/repositories/transaction_repository");
+const TransactionDepository = require("../postgres/repositories/transactionRepository");
 
 const findAll = async () =>
   wrapWithUnknownError(() => TransactionDepository.findAll(), "Unable to find all deposits due to unknown error");

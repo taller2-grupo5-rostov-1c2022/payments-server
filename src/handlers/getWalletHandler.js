@@ -1,4 +1,4 @@
-const { findByUserId } = require("../postgres/repositories/wallet_repository");
+const { findByUserId } = require("../postgres/repositories/walletRepository");
 
 function schema() {
   return {
