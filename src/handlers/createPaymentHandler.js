@@ -16,7 +16,7 @@ function schema() {
 }
 
 function handler({ contractInteraction, walletService }) {
-  return async function (req) {
+  return async function (req, reply) {
     const userId = req.params.userId;
     const walletId = await walletService.getWalletIdWithUserId(userId);
     if (!walletId) {
@@ -29,7 +29,14 @@ function handler({ contractInteraction, walletService }) {
     }
     const deployerWallet = await walletService.getDeployerWallet();
     const receiverWallet = await walletService.getWallet(walletId);
-    return await contractInteraction.pay(deployerWallet, receiverWallet.address, req.body.amountInEthers, userId);
+    try {
+      return await contractInteraction.pay(deployerWallet, receiverWallet.address, req.body.amountInEthers, userId);
+    }
+    catch (e) {
+      return reply.code(400).send({
+        message: `System wallet does not have sufficient funds to make a payment`,
+      });
+    }
   };
 }
 
