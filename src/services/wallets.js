@@ -41,7 +41,11 @@ const getWalletData = () => walletId => {
 };
 
 const getWalletIdWithUserId = async userId => {
-  return (await wallets.findByUserId(userId)).id;
+  const wallet = await wallets.findByUserId(userId);
+  if (!wallet) {
+    return null;
+  }
+  return wallet.id;
 };
 
 const getWallet = async walletId => {
