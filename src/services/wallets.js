@@ -20,13 +20,17 @@ const createWallet = () => async userId => {
   // This may break in some environments, keep an eye on it
   const wallet = ethers.Wallet.createRandom().connect(provider);
   const walletsCount = (await walletsService.countWallet()) + 1;
-  const result = await walletsService.create({
+  let result = await walletsService.create({
     id: walletsCount.toString(),
     user_id: userId,
     address: wallet.address,
     private_key: wallet.privateKey,
   });
-  if (result) {
+  if (!result) {
+    // Wallet already exists for that user
+    result = await walletsService.findByUserId(userId);
+  } else {
+    // Wallet has been created so we send a welcome gift
     await sendWelcomeGift(provider, wallet);
   }
   return result;
