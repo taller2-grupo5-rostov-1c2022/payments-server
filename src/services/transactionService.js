@@ -3,10 +3,10 @@ const TransactionDepository = require("../postgres/repositories/transactionRepos
 const findAll = async () =>
   wrapWithUnknownError(() => TransactionDepository.findAll(), "Unable to find all deposits due to unknown error");
 
-const findById = async idDeposit =>
+const findById = async transactionId =>
   wrapWithUnknownError(
-    () => TransactionDepository.findById(idDeposit),
-    `Unable to find deposit ${idDeposit} due to unknown error`,
+    () => TransactionDepository.findById(transactionId),
+    `Unable to find deposit ${transactionId} due to unknown error`,
   );
 
 const create = async newTransaction =>

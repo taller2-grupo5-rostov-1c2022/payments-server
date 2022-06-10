@@ -21,7 +21,7 @@ function handler({ contractInteraction, walletService }) {
     const walletId = await walletService.getWalletIdWithUserId(userId);
     if (!walletId) {
       return reply.code(404).send({
-        message: `User ID ${userId} not found`,
+        message: `Unable to find wallet with provided user id ${userId}`,
       })
     }
     try {
