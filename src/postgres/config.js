@@ -1,8 +1,5 @@
 const baseConfig = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  }
+  connectionString: process.env.DATABASE_URL
 };
 
 module.exports = { baseConfig };
