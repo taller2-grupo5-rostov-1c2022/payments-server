@@ -201,6 +201,16 @@ The following endpoints are available:
 }
 ```
 
+- **Get balance from a wallet for a specific user**
+  - `GET api/v1/balances/`
+    - Headers: _user-id_ is the id of the user formatted as a string.
+    - Response example: _balance_ represents the balance of the user in ethers.
+```json
+{
+    "balance": "0.05156058679858502"
+}
+```
+
 
 
 ## Heroku
