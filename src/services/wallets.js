@@ -1,5 +1,5 @@
 const ethers = require("ethers");
-const wallets = require("./walletService");
+const walletsService = require("./walletService");
 const config = require("../config");
 
 const WELCOME_AMOUNT = "0.001";
@@ -19,29 +19,33 @@ const createWallet = () => async userId => {
   const provider = new ethers.providers.InfuraProvider(config.network, process.env.INFURA_API_KEY);
   // This may break in some environments, keep an eye on it
   const wallet = ethers.Wallet.createRandom().connect(provider);
-  const walletsCount = (await wallets.countWallet()) + 1;
-  const result = await wallets.create({
+  const walletsCount = (await walletsService.countWallet()) + 1;
+  let result = await walletsService.create({
     id: walletsCount.toString(),
     user_id: userId,
     address: wallet.address,
     private_key: wallet.privateKey,
   });
-  if (result) {
+  if (!result) {
+    // Wallet already exists for that user
+    result = await walletsService.findByUserId(userId);
+  } else {
+    // Wallet has been created so we send a welcome gift
     await sendWelcomeGift(provider, wallet);
   }
   return result;
 };
 
 const getWalletsData = () => () => {
-  return wallets.findAll();
+  return walletsService.findAll();
 };
 
 const getWalletData = () => walletId => {
-  return wallets.findById(walletId);
+  return walletsService.findById(walletId);
 };
 
 const getWalletIdWithUserId = async userId => {
-  const wallet = await wallets.findByUserId(userId);
+  const wallet = await walletsService.findByUserId(userId);
   if (!wallet) {
     return null;
   }
@@ -71,6 +75,17 @@ const sendWelcomeGift = async (provider, newWallet) => {
   });
 };
 
+const getBalanceByUserId = async userId => {
+  const wallet = await walletsService.findByUserId(userId);
+  if (!wallet) {
+    return null;
+  }
+  const provider = ethers.getDefaultProvider(config.network);
+  const balance = await provider.getBalance(wallet.address);
+  return ethers.utils.formatEther(balance);
+}
+
+
 module.exports = ({ config }) => ({
   createWallet: createWallet({ config }),
   getDeployerWallet: getDeployerWallet({ config }),
@@ -78,4 +93,5 @@ module.exports = ({ config }) => ({
   getWalletData: getWalletData({ config }),
   getWallet,
   getWalletIdWithUserId,
+  getBalanceByUserId,
 });

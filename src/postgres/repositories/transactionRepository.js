@@ -2,7 +2,7 @@ const connectionPool = require("../connectionPool");
 
 const TABLE_NAME = "TRANSACTION";
 
-const create = async newDeposit => {
+const create = async newTransaction => {
   const client = await connectionPool.connectionPool.connect();
 
   try {
@@ -11,14 +11,14 @@ const create = async newDeposit => {
         TABLE_NAME +
         " (ID, USER_ID, RECEIVER_ADDRESS, SENDER_ADDRESS, AMOUNT, DAY, MONTH, YEAR) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
       [
-        newDeposit.id,
-        newDeposit.user_id,
-        newDeposit.receiver_address,
-        newDeposit.sender_address,
-        newDeposit.amount,
-        newDeposit.day,
-        newDeposit.month,
-        newDeposit.year,
+        newTransaction.id,
+        newTransaction.user_id,
+        newTransaction.receiver_address,
+        newTransaction.sender_address,
+        newTransaction.amount,
+        newTransaction.day,
+        newTransaction.month,
+        newTransaction.year,
       ],
     );
 

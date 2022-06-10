@@ -20,12 +20,7 @@ function handler({ contractInteraction, walletService }) {
     const userId = req.params.userId;
     const walletId = await walletService.getWalletIdWithUserId(userId);
     if (!walletId) {
-      return {
-        statusCode: 404,
-        body: {
-          message: `User ID ${userId} not found`,
-        },
-      };
+      return reply.code(404).send({ message: `Unable to find wallet with provided user id ${userId}` });
     }
     const deployerWallet = await walletService.getDeployerWallet();
     const receiverWallet = await walletService.getWallet(walletId);

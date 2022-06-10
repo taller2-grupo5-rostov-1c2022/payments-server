@@ -5,6 +5,7 @@ const createDeposit = require("./handlers/createDepositHandler");
 const getDeposit = require("./handlers/getTransactionHandler");
 const getDeposits = require("./handlers/getTransactionsHandler");
 const createPayment = require("./handlers/createPaymentHandler");
+const getBalance = require("./handlers/getBalanceHandler");
 
 const API_PREFIX = "/api/v1";
 
@@ -71,6 +72,15 @@ function createPaymentRoute({ services, config }) {
   };
 }
 
+function getBalanceRoute({ services, config }) {
+  return {
+    method: "GET",
+    url: API_PREFIX + "/balances",
+    schema: getBalance.schema(config),
+    handler: getBalance.handler({ config, ...services }),
+  };
+}
+
 module.exports = [
   getWalletDataRoute,
   getWalletsDataRoute,
@@ -79,4 +89,5 @@ module.exports = [
   getUserDepositRoute,
   getTransactionsRoute,
   createPaymentRoute,
+  getBalanceRoute,
 ];
