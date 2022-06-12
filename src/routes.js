@@ -75,7 +75,7 @@ function createPaymentRoute({ services, config }) {
 function getBalanceRoute({ services, config }) {
   return {
     method: "GET",
-    url: API_PREFIX + "/balances",
+    url: API_PREFIX + "/balances/",
     schema: getBalance.schema(config),
     handler: getBalance.handler({ config, ...services }),
   };
