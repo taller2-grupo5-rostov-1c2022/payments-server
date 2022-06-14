@@ -203,7 +203,7 @@ The following endpoints are available:
 
 - **Get balance from a wallet for a specific user**
   - `GET api/v1/balances/`
-    - Headers: _user-id_ is the id of the user formatted as a string.
+    - Headers: _uid_ is the id of the user formatted as a string.
     - Response example: _balance_ represents the balance of the user in ethers.
 ```json
 {
@@ -250,6 +250,7 @@ Keep in mind that you have to set the following variables in a `.env` file in th
 - `INFURA_API_KEY`: The API key for the Infura node, you can get it from the [Infura dashboard](https://infura.io/dashboard)
 - `MNEMONIC`: The mnemonic for the wallet, you can get it from MetaMask.
 - `PORT`: The port to run the server on. The default port is 3000.
+- `ETHERSCAN_API_KEY`: The API key for the Etherscan node, you can get it from the [Etherscan dashboard](https://etherscan.io/myapikey)
 
 This repository already contains these variables set as actions secrets and the deployment pipeline generates a `.env`
 file with those secrets.
