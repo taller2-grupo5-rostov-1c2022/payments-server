@@ -22,15 +22,18 @@ function handler({ contractInteraction, walletService }) {
     if (!walletId) {
       return reply.code(404).send({
         message: `Unable to find wallet with provided user id ${userId}`,
-      })
+      });
     }
     try {
-      return await contractInteraction.deposit(await walletService.getWallet(walletId), req.body.amountInEthers, userId);
-    }
-    catch (e) {
+      return await contractInteraction.deposit(
+        await walletService.getWallet(walletId),
+        req.body.amountInEthers,
+        userId,
+      );
+    } catch (e) {
       return reply.code(400).send({
         message: `User ID ${userId} does not have sufficient funds to make a deposit`,
-      })
+      });
     }
   };
 }

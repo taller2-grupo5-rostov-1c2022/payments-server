@@ -9,6 +9,7 @@
     "hardhat": "2.0.6",
     "hardhat-deploy": "0.7.4",
     "hardhat-deploy-ethers": "0.3.0-beta.7",
+    "node-fetch": "^2.6.7",
     "pg": "^8.7.3",
     "solc": "0.7.4"
   },
@@ -48,7 +49,7 @@
     "leafleth": "0.0.9",
     "nodemon": "^2.0.16",
     "pino-prettier": "^1.0.1",
-    "prettier": "2.2.1",
+    "prettier": "^2.2.1",
     "prettier-plugin-solidity": "1.0.0-beta.5",
     "shelljs": "0.8.4",
     "solhint": "3.3.2",

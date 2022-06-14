@@ -26,8 +26,7 @@ function handler({ contractInteraction, walletService }) {
     const receiverWallet = await walletService.getWallet(walletId);
     try {
       return await contractInteraction.pay(deployerWallet, receiverWallet.address, req.body.amountInEthers, userId);
-    }
-    catch (e) {
+    } catch (e) {
       return reply.code(400).send({
         message: `System wallet does not have sufficient funds to make a payment`,
       });

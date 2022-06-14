@@ -1,6 +1,7 @@
 const ethers = require("ethers");
 const walletsService = require("./walletService");
 const config = require("../config");
+const fetch = require("node-fetch");
 
 const WELCOME_AMOUNT = "0.001";
 
@@ -11,7 +12,6 @@ const getContract = (config, wallet) => {
 const getDeployerWallet = ({ config }) => () => {
   const provider = new ethers.providers.InfuraProvider(config.network, config.infuraApiKey);
   const wallet = ethers.Wallet.fromMnemonic(config.deployerMnemonic).connect(provider);
-  console.log("Deployer wallet " + wallet.address);
   return wallet;
 };
 
@@ -30,7 +30,7 @@ const createWallet = () => async userId => {
     // Wallet already exists for that user
     result = await walletsService.findByUserId(userId);
   } else {
-    // Wallet has been created so we send a welcome gift
+    // Wallet has just been created so we send a welcome gift
     await sendWelcomeGift(provider, wallet);
   }
   return result;
@@ -80,11 +80,15 @@ const getBalanceByUserId = async userId => {
   if (!wallet) {
     return null;
   }
-  const provider = ethers.getDefaultProvider(config.network);
-  const balance = await provider.getBalance(wallet.address);
-  return ethers.utils.formatEther(balance);
-}
-
+  const response = await fetch(
+    `https://api-rinkeby.etherscan.io/api?module=account&action=balance&address=${wallet.address}&tag=latest&apikey=${config.etherscanApiKey}`,
+  );
+  if (response.status !== 200) {
+    return null;
+  }
+  const balance_info = await response.json();
+  return ethers.utils.formatEther(balance_info.result);
+};
 
 module.exports = ({ config }) => ({
   createWallet: createWallet({ config }),
