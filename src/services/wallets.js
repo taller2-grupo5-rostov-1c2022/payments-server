@@ -80,14 +80,15 @@ const getBalanceByUserId = async userId => {
   if (!wallet) {
     return null;
   }
-  const response = await fetch(`https://api-rinkeby.etherscan.io/api?module=account&action=balance&address=${wallet.address}&tag=latest&apikey=${config.etherscanApiKey}`);
+  const response = await fetch(
+    `https://api-rinkeby.etherscan.io/api?module=account&action=balance&address=${wallet.address}&tag=latest&apikey=${config.etherscanApiKey}`,
+  );
   if (response.status !== 200) {
     return null;
   }
   const balance_info = await response.json();
   return ethers.utils.formatEther(balance_info.result);
-}
-
+};
 
 module.exports = ({ config }) => ({
   createWallet: createWallet({ config }),

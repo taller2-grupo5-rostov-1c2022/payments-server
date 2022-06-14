@@ -2,7 +2,9 @@ const config = require("./config");
 const services = require("./services/services")({ config });
 const routes = require("./routes");
 
-const fastify = require("fastify")({ logger: {prettyPrint: {translateTime: 'HH:MM:ss Z', ignore: 'pid, hostname', colorize: true}} });
+const fastify = require("fastify")({
+  logger: { prettyPrint: { translateTime: "HH:MM:ss Z", ignore: "pid, hostname", colorize: true } },
+});
 
 routes.forEach(route => fastify.route(route({ config, services })));
 
