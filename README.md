@@ -20,7 +20,7 @@ Check out the SC in [Etherscan](https://rinkeby.etherscan.io/address/0xe9f7f0263
 The following endpoints are available:
 
 - **Create wallet**
-  - `POST api/v1/wallets/:userId`
+  - `POST api/v1/wallets/{userId}`
     - Path: _userId_ is the id of the user.
     - Body: empty
     - Example: `POST /wallets/asd123`
@@ -69,7 +69,7 @@ The following endpoints are available:
 ]
 ```
 - **Get wallet from specific user**
-  - `GET api/v1/wallets/:userId`
+  - `GET api/v1/wallets/{userId}`
     - Path: _userId_ is the id of the user.
     - Body: empty
     - Example: `GET /wallets/asd123`
@@ -84,7 +84,7 @@ The following endpoints are available:
 ```
 
 - **Deposit ethers _into the Smart contract_**
-  - `POST api/v1/deposit/:userId`
+  - `POST api/v1/deposit/{userId}`
     - Path: _userId_ is the id of the user.
     - Body: _amountInEthers_ is the amount of ethers to deposit as a string. `{
     "amountInEthers": "0.0001"
@@ -170,7 +170,7 @@ The following endpoints are available:
 ```
 
 - **Make payment to specific user**
-  - `POST api/v1/pay/:userId`
+  - `POST api/v1/pay/{userId}`
     - Path: _userId_ is the id of the user.
     - Body: _amountInEthers_ is the amount of ethers to deposit as a string. `{"amountInEthers": "0.0001"}`
     - Example: `POST /pay/asd123`
