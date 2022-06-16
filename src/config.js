@@ -4,6 +4,7 @@ const deployArtifact = require(`../deployments/${network}/BasicPayments`);
 const deployerMnemonic = process.env.MNEMONIC;
 const infuraApiKey = process.env.INFURA_API_KEY;
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY;
+const apiKey = process.env.API_KEY;
 
 module.exports = {
   contractAddress: deployArtifact.address,
@@ -12,4 +13,5 @@ module.exports = {
   infuraApiKey,
   network,
   etherscanApiKey,
+  apiKey,
 };

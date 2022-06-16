@@ -13,6 +13,8 @@ To install the project we recommend that you use NVM and install the node versio
 
 Once you have that in place, you can install the dependencies with npm through `npm i`
 
+Alternatively, you can use `docker-compose up --build` command in the project root.
+
 Check out the SC in [Etherscan](https://rinkeby.etherscan.io/address/0xe9f7f026355d691238f628cd8bcbb39bf7f4f8e2)
 
 ## API Documentation
@@ -211,8 +213,6 @@ The following endpoints are available:
 }
 ```
 
-
-
 ## Heroku
 
 You'll need to set the following actions secrets to deploy the project to Heroku:
@@ -250,6 +250,7 @@ Keep in mind that you have to set the following variables in a `.env` file in th
 - `INFURA_API_KEY`: The API key for the Infura node, you can get it from the [Infura dashboard](https://infura.io/dashboard)
 - `MNEMONIC`: The mnemonic for the wallet, you can get it from MetaMask.
 - `PORT`: The port to run the server on. The default port is 3000.
+- `API_KEY`: The API key value for API authentication.
 - `ETHERSCAN_API_KEY`: The API key for the Etherscan node, you can get it from the [Etherscan dashboard](https://etherscan.io/myapikey)
 
 This repository already contains these variables set as actions secrets and the deployment pipeline generates a `.env`
