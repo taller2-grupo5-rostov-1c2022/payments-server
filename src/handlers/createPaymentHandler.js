@@ -11,12 +11,21 @@ function schema() {
         },
       },
     },
-    required: ["userId", "amountInEthers"],
+    headers: {
+      type: "object",
+      properties: {
+        role: { type: "string", enum: ["admin", "listener", "artist"] },
+      },
+    },
+    required: ["userId", "amountInEthers", "role"],
   };
 }
 
 function handler({ contractInteraction, walletService }) {
   return async function (req, reply) {
+    if (!req.headers.role || req.headers.role !== "admin") {
+      reply.code(403).send({ message: "Unauthorized, role is not admin" });
+    }
     const userId = req.params.userId;
     const walletId = await walletService.getWalletIdWithUserId(userId);
     if (!walletId) {
