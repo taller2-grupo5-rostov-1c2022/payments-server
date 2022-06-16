@@ -14,18 +14,22 @@ function schema() {
         role: { type: "string", enum: ["admin", "listener", "artist"] },
       },
     },
-    required: ["userId", "role"],
+    required: ["userId"],
   };
 }
 
-function handler({ contractInteraction }) {
+function handler({ walletService }) {
   return async function (req, reply) {
     if (!req.headers.role || req.headers.role !== "admin") {
       reply.code(403).send({ message: "Unauthorized, role is not admin" });
     }
-    const body = await contractInteraction.getDepositReceipt(req.params.userId);
-    const actualCode = body ? 200 : 404;
-    reply.code(actualCode).send(body);
+    const userId = req.params.userId;
+    const balanceInEthers = await walletService.getBalanceByUserId(userId);
+    const code = !balanceInEthers ? 404 : 200;
+    const body = !balanceInEthers
+      ? { message: `Unable to find wallet with provided uid ${userId} or etherscan is down` }
+      : { balance: balanceInEthers };
+    return reply.code(code).send(body);
   };
 }
 
