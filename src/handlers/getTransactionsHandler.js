@@ -5,13 +5,22 @@ function schema() {
     params: {
       type: "object",
     },
+    headers: {
+      type: "object",
+      properties: {
+        role: { type: "string", enum: ["admin", "listener", "artist"] },
+      },
+    },
+    required: ["role"],
   };
 }
 
 function handler() {
   return async function (req, reply) {
+    if (!req.headers.role || req.headers.role !== "admin") {
+      reply.code(403).send({ message: "Unauthorized, role is not admin" });
+    }
     const allDeposits = await findAll();
-    // const actualCode = !!code ? code : body.status && body.status === "error" ? 400 : 200;
     reply.code(200).send(allDeposits);
   };
 }
