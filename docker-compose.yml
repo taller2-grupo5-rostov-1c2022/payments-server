@@ -12,6 +12,7 @@ services:
       - MNEMONIC=${MNEMONIC}
       - INFURA_API_KEY=${INFURA_API_KEY}
       - ETHERSCAN_API_KEY=${ETHERSCAN_API_KEY}
+      - API_KEY=${API_KEY}
       - DATABASE_URL=postgresql://test:test@postgres:5432/test
     depends_on:
       - postgres
