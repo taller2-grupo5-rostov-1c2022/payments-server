@@ -86,7 +86,7 @@ const pay = ({ config }) => async (systemWallet, receiverAddress, amountToSend, 
   return tx;
 };
 
-const getDepositReceipt = ({}) => async userId => {
+const getTransactionReceipt = ({}) => async userId => {
   const wallet = await findByUserId(userId);
   if (!wallet) {
     return { status: "error", code: 404, message: `Wallet not found for user with id ${userId}` };
@@ -97,6 +97,6 @@ const getDepositReceipt = ({}) => async userId => {
 
 module.exports = dependencies => ({
   deposit: deposit(dependencies),
-  getDepositReceipt: getDepositReceipt(dependencies),
+  getDepositReceipt: getTransactionReceipt(dependencies),
   pay: pay(dependencies),
 });

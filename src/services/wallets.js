@@ -79,25 +79,26 @@ const getBalanceByUserId = async userId => {
   if (!wallet) {
     return null;
   }
+  return await fetchBalanceFromAddress(wallet.address);
+};
+
+const getBalanceContract = async () => {
+  const balanceInEthers = await fetchBalanceFromAddress(config.contractAddress);
+  if (!balanceInEthers) {
+    return null;
+  }
+  return { balance: balanceInEthers, systemWallet: config.contractAddress };
+};
+
+const fetchBalanceFromAddress = async address => {
   const response = await fetch(
-    `https://api-rinkeby.etherscan.io/api?module=account&action=balance&address=${wallet.address}&tag=latest&apikey=${config.etherscanApiKey}`,
+    `https://api-rinkeby.etherscan.io/api?module=account&action=balance&address=${address}&tag=latest&apikey=${config.etherscanApiKey}`,
   );
   if (response.status !== 200) {
     return null;
   }
   const balance_info = await response.json();
   return ethers.utils.formatEther(balance_info.result);
-};
-
-const getBalanceContract = async () => {
-  const response = await fetch(
-    `https://api-rinkeby.etherscan.io/api?module=account&action=balance&address=${config.contractAddress}&tag=latest&apikey=${config.etherscanApiKey}`,
-  );
-  if (response.status !== 200) {
-    return null;
-  }
-  const balance_info = await response.json();
-  return { balance: ethers.utils.formatEther(balance_info.result), systemWallet: config.contractAddress };
 };
 
 module.exports = ({ config }) => ({

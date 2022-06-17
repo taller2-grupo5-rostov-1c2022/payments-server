@@ -1,20 +1,16 @@
+const { verify_role_header } = require("./utils");
+const { Role } = require("./schemas");
+
 function schema() {
   return {
-    headers: {
-      type: "object",
-      properties: {
-        role: { type: "string", enum: ["admin", "listener", "artist"] },
-      },
-    },
+    headers: Role,
     required: ["role"],
   };
 }
 
 function handler({ walletService }) {
   return async function (req, reply) {
-    if (!req.headers.role || req.headers.role !== "admin") {
-      reply.code(403).send({ message: "Unauthorized, role is not admin" });
-    }
+    verify_role_header(req, reply);
     const userId = req.params.userId;
     const result = await walletService.getBalanceContract();
     const code = !result ? 404 : 200;

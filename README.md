@@ -229,6 +229,17 @@ Keep in mind that all endpoints needs a `api_key` header with the `API key` valu
 }
 ```
 
+- **Get balance from SC**
+  - `GET api/v1/balances/system`
+    - Headers: `role` with the role value of `admin`, `artist` or `listener`.
+    - Response example: _balance_ represents the balance of the SC in ethers. _systemAddress_ represents the address of the SC.
+```json
+{
+    "balance": "0.05156058679858502",
+    "systemAddress": "0x112312f15f1f51f8e"
+}
+```
+
 ## Heroku
 
 You'll need to set the following actions secrets to deploy the project to Heroku:
