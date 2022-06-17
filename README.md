@@ -21,6 +21,8 @@ Check out the SC in [Etherscan](https://rinkeby.etherscan.io/address/0xe9f7f0263
 
 The following endpoints are available:
 
+Keep in mind that all endpoints needs a `api_key` header with the `API key` value defined in the `.env` (see below).
+
 - **Create wallet**
   - `POST api/v1/wallets/{userId}`
     - Path: _userId_ is the id of the user.
@@ -123,6 +125,7 @@ The following endpoints are available:
   - GET api/v1/transactions
     - Path: empty
     - Body: empty
+    - Headers: `role` with the role value of `admin`, `artist` or `listener`.
     - Example: `GET /transactions`
     - Response example: _id_ represents the tx's hash.
 ```json
@@ -153,6 +156,7 @@ The following endpoints are available:
   - `GET api/v1/transactions/:userId`
     - Path: _userId_ is the id of the user.
     - Body: empty
+    - Headers: `role` with the role value of `admin`, `artist` or `listener`.
     - Example: `GET /transactions/asd123`
     - Response example: _id_ represents the tx's hash.
 
@@ -175,6 +179,7 @@ The following endpoints are available:
   - `POST api/v1/pay/{userId}`
     - Path: _userId_ is the id of the user.
     - Body: _amountInEthers_ is the amount of ethers to deposit as a string. `{"amountInEthers": "0.0001"}`
+    - Headers: `role` with the role value of `admin`, `artist` or `listener`.
     - Example: `POST /pay/asd123`
     - Response example: _id_ represents the tx's hash, _to_ is the address of the receiver, _from_ is the address of the sender.
 ```json
@@ -203,13 +208,35 @@ The following endpoints are available:
 }
 ```
 
-- **Get balance from a wallet for a specific user**
+- **Get balance from a wallet for a specific user (Header)**
   - `GET api/v1/balances/`
     - Headers: _uid_ is the id of the user formatted as a string.
     - Response example: _balance_ represents the balance of the user in ethers.
 ```json
 {
     "balance": "0.05156058679858502"
+}
+```
+
+- **Get balance from a wallet for a specific user (Path)**
+  - `GET api/v1/balances/:userId`
+    - Path: _userId_ is the id of the user formatted as a string.
+    - Headers: `role` with the role value of `admin`, `artist` or `listener`.
+    - Response example: _balance_ represents the balance of the user in ethers.
+```json
+{
+    "balance": "0.05156058679858502"
+}
+```
+
+- **Get balance from SC**
+  - `GET api/v1/balances/system`
+    - Headers: `role` with the role value of `admin`, `artist` or `listener`.
+    - Response example: _balance_ represents the balance of the SC in ethers. _systemAddress_ represents the address of the SC.
+```json
+{
+    "balance": "0.05156058679858502",
+    "systemAddress": "0x112312f15f1f51f8e"
 }
 ```
 

@@ -14,7 +14,7 @@ function schema() {
   };
 }
 
-function handler({ walletService }) {
+function handler({}) {
   return async function (req, reply) {
     const wallet = await findByUserId(req.params.userId);
     const code = !wallet ? 404 : 200;
