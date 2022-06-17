@@ -20,7 +20,7 @@ function handler({ walletService }) {
     const body = !balanceInEthers
       ? { message: `Unable to find wallet with provided uid ${userId} or etherscan is down` }
       : { balance: balanceInEthers };
-    return reply.code(code).send(body);
+    reply.code(code).send(body);
   };
 }
 
