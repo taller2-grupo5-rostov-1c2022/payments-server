@@ -1,4 +1,3 @@
-const { verify_role_header } = require("./utils");
 const { Role } = require("./schemas");
 
 function schema() {
@@ -18,7 +17,6 @@ function schema() {
 
 function handler({ walletService }) {
   return async function (req, reply) {
-    verify_role_header(req, reply);
     const userId = req.params.userId;
     const balanceInEthers = await walletService.getBalanceByUserId(userId);
     const code = !balanceInEthers ? 404 : 200;

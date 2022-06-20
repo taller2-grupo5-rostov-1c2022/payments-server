@@ -1,5 +1,5 @@
 const ethers = require("ethers");
-const walletsService = require("./walletService");
+const walletsService = require("./walletUtils");
 const config = require("../config");
 const fetch = require("node-fetch");
 

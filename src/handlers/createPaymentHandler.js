@@ -1,4 +1,3 @@
-const { verify_role_header } = require("./utils");
 const { Role } = require("./schemas");
 
 function schema() {
@@ -9,6 +8,11 @@ function schema() {
         userId: {
           type: "string",
         },
+      },
+    },
+    body: {
+      type: "object",
+      properties: {
         amountInEthers: {
           type: "string",
         },
@@ -21,7 +25,6 @@ function schema() {
 
 function handler({ contractInteraction, walletService }) {
   return async function (req, reply) {
-    verify_role_header(req, reply);
     const userId = req.params.userId;
     const walletId = await walletService.getWalletIdWithUserId(userId);
     if (!walletId) {

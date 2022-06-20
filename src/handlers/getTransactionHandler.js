@@ -1,4 +1,3 @@
-const { verify_role_header } = require("./utils");
 const { Role } = require("./schemas");
 
 function schema() {
@@ -18,7 +17,6 @@ function schema() {
 
 function handler({ contractInteraction }) {
   return async function (req, reply) {
-    verify_role_header(req, reply);
     const body = await contractInteraction.getDepositReceipt(req.params.userId);
     const actualCode = body ? 200 : 404;
     reply.code(actualCode).send(body);

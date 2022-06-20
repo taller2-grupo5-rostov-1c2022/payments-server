@@ -24,6 +24,6 @@ services:
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
       # copy the sql script to create tables on init
-      - ./src/postgres/sql/tables.sql:/docker-entrypoint-initdb.d/tables.sql
+      - ./src/infrastructure/sql/tables.sql:/docker-entrypoint-initdb.d/tables.sql
     ports:
       - "5438:5432"
