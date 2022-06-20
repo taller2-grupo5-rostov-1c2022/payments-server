@@ -8,6 +8,7 @@ const createPayment = require("./handlers/createPaymentHandler");
 const getBalance = require("./handlers/getBalanceHandler");
 const getBalancePath = require("./handlers/getBalancePathHandler");
 const getSystemBalance = require("./handlers/getSystemBalanceHandler");
+const verifyRoleHeader = require("./hooks");
 
 const API_PREFIX = "/api/v1";
 
@@ -47,12 +48,13 @@ function createDepositRoute({ services, config }) {
   };
 }
 
-function getUserDepositRoute({ services, config }) {
+function getUserTransactionsRoute({ services, config }) {
   return {
     method: "GET",
     url: API_PREFIX + "/transactions/:userId",
     schema: getDeposit.schema(config),
     handler: getDeposit.handler({ config, ...services }),
+    onRequest: verifyRoleHeader,
   };
 }
 
@@ -62,6 +64,7 @@ function getTransactionsRoute({ services, config }) {
     url: API_PREFIX + "/transactions",
     schema: getDeposits.schema(config),
     handler: getDeposits.handler({ config, ...services }),
+    onRequest: verifyRoleHeader,
   };
 }
 
@@ -71,6 +74,7 @@ function createPaymentRoute({ services, config }) {
     url: API_PREFIX + "/pay/:userId",
     schema: createPayment.schema(config),
     handler: createPayment.handler({ config, ...services }),
+    onRequest: verifyRoleHeader,
   };
 }
 
@@ -89,6 +93,7 @@ function getBalanceUserIdPathRoute({ services, config }) {
     url: API_PREFIX + "/balances/:userId",
     schema: getBalancePath.schema(config),
     handler: getBalancePath.handler({ config, ...services }),
+    onRequest: verifyRoleHeader,
   };
 }
 
@@ -98,6 +103,7 @@ function getBalanceSystemRoute({ services, config }) {
     url: API_PREFIX + "/balances/system",
     schema: getSystemBalance.schema(config),
     handler: getSystemBalance.handler({ config, ...services }),
+    onRequest: verifyRoleHeader,
   };
 }
 
@@ -106,7 +112,7 @@ module.exports = [
   getWalletsDataRoute,
   createWalletRoute,
   createDepositRoute,
-  getUserDepositRoute,
+  getUserTransactionsRoute,
   getTransactionsRoute,
   createPaymentRoute,
   getBalanceRoute,

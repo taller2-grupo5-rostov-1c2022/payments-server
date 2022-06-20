@@ -8,7 +8,7 @@ const fastify = require("fastify")({
 
 routes.forEach(route => fastify.route(route({ config, services })));
 
-// Hook for API key verification
+// Hook for API key verification for all endpoints
 fastify.addHook("onRequest", (req, reply, done) => {
   if (!req.headers.api_key || req.headers.api_key !== config.apiKey) {
     reply.code(401).send({ message: "Unauthorized" });

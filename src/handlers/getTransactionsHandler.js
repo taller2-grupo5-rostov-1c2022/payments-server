@@ -1,5 +1,4 @@
-const { findAll } = require("../postgres/repositories/transactionRepository");
-const { verify_role_header } = require("./utils");
+const { findAll } = require("../infrastructure/repositories/transactionRepository");
 const { Role } = require("./schemas");
 
 function schema() {
@@ -14,7 +13,6 @@ function schema() {
 
 function handler() {
   return async function (req, reply) {
-    verify_role_header(req, reply);
     const allDeposits = await findAll();
     reply.code(200).send(allDeposits);
   };

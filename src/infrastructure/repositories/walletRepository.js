@@ -3,7 +3,7 @@ const connectionPool = require("../connectionPool");
 const TABLE_NAME = "WALLET";
 
 const create = async newWallet => {
-  const client = await connectionPool.connectionPool.connect();
+  const client = await connectionPool.connect();
 
   try {
     const wallet = await findByUserId(newWallet.user_id);
@@ -23,7 +23,7 @@ const create = async newWallet => {
 };
 
 const findAll = async () => {
-  const client = await connectionPool.connectionPool.connect();
+  const client = await connectionPool.connect();
 
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME);
@@ -37,7 +37,7 @@ const findAll = async () => {
 };
 
 const findById = async id => {
-  const client = await connectionPool.connectionPool.connect();
+  const client = await connectionPool.connect();
 
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE ID = $1", [id]);
@@ -55,7 +55,7 @@ const findById = async id => {
 };
 
 const findByUserId = async userId => {
-  const client = await connectionPool.connectionPool.connect();
+  const client = await connectionPool.connect();
 
   try {
     const { rows } = await client.query("SELECT * FROM " + TABLE_NAME + " WHERE USER_ID = $1", [userId]);
@@ -73,7 +73,7 @@ const findByUserId = async userId => {
 };
 
 const remove = async id => {
-  const client = await connectionPool.connectionPool.connect();
+  const client = await connectionPool.connect();
 
   try {
     await client.query("DELETE FROM " + TABLE_NAME + " WHERE ID = $1", [id]);
@@ -85,7 +85,7 @@ const remove = async id => {
 };
 
 const count = async () => {
-  const client = await connectionPool.connectionPool.connect();
+  const client = await connectionPool.connect();
 
   try {
     const { rows } = await client.query("SELECT COUNT(*) FROM " + TABLE_NAME);

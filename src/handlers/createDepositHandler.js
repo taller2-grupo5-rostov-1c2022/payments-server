@@ -6,6 +6,11 @@ function schema() {
         userId: {
           type: "string",
         },
+      },
+    },
+    body: {
+      type: "object",
+      properties: {
         amountInEthers: {
           type: "string",
         },
