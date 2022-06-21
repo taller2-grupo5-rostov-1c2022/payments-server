@@ -236,7 +236,7 @@ Keep in mind that all endpoints needs a `api_key` header with the `API key` valu
 ```json
 {
     "balance": "0.05156058679858502",
-    "systemAddress": "0x112312f15f1f51f8e"
+    "systemWallet": "0x112312f15f1f51f8e"
 }
 ```
 
