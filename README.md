@@ -17,6 +17,44 @@ Alternatively, you can use `docker-compose up --build` command in the project ro
 
 Check out the SC in [Etherscan](https://rinkeby.etherscan.io/address/0xe9f7f026355d691238f628cd8bcbb39bf7f4f8e2)
 
+## Docker
+
+You need [docker-compose](https://docs.docker.com/compose/) and [docker](https://docs.docker.com/) to run the following containers
+and commands.
+
+### Developing with container and database
+
+```bash
+$ sudo docker-compose up --build
+```
+
+### Running tests within container
+
+You can run a container which will run the app and will provide the database. In one terminal run:
+
+```bash
+$ sudo docker-compose up --build
+```
+
+Then in other terminal run `docker ps` and copy the `container ID` from the `sc_spotifiuby_payments-server` image:
+
+```bash
+$ docker ps
+CONTAINER ID   IMAGE                           COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+f0d1f3905aa9   sc_spotifiuby_payments-server   "docker-entrypoint.s…"   49 seconds ago   Up 48 seconds   0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   sc_spotifiuby_payments-server_1
+7abd82e44f98   postgres:14.2                   "docker-entrypoint.s…"   2 weeks ago      Up 48 seconds   0.0.0.0:5438->5432/tcp, :::5438->5432/tcp   sc_spotifiuby_postgres_1
+```
+
+Finally, enter the container with `docker exec -it [container-id] bash` and run the tests within the container using `npm run test`:
+
+```bash
+$ docker exec -it [container-id] bash
+$ root@f0d1f3905aa9:/app# ls
+Dockerfile  artifacts  contracts  coverage.json  deployments         hardhat.config.ts  heroku-Dockerfile  package-lock.json  postgres-data  src   tsconfig.json
+README.md   cache      coverage   deploy         docker-compose.yml  heroku             node_modules       package.json       scripts        test  typechain
+$ root@b1e9c7c4e040:/code# npm run test
+```
+
 ## API Documentation
 
 The following endpoints are available:
@@ -285,7 +323,7 @@ file with those secrets.
 
 ### Testing
 
-To run the tests, after you installed the dependencies, just run `npm t`
+To run the tests, after you installed the dependencies, just run `npm run test`
 
 ### Linting
 
@@ -294,12 +332,6 @@ To run the linter, after you installed the dependencies, just run `npm run lint`
 ### Coverage
 
 To create a coverage report, after you installed the dependencies, just run `npm run coverage`
-
-### Doc generation
-
-To create the smart contract documentation, after you installed the dependencies, just run `npm run docgen`
-
-This will generate a browsable html file within the `./docs` folder, to view it you can open it with any browser.
 
 ### SC Deployment
 
