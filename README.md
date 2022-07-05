@@ -2,7 +2,6 @@
 [![codecov](https://codecov.io/gh/taller2-grupo5-rostov-1c2022/payments-server/branch/master/graph/badge.svg?token=htOzOZRHPV)](https://codecov.io/gh/taller2-grupo5-rostov-1c2022/payments-server)
 [![](https://img.shields.io/badge/Node-12.18.1-green.svg)](https://nodejs.org/en/)
 ![Fastify](https://img.shields.io/badge/fastify-%23000000.svg?style=for-the-badge&logo=fastify&logoColor=white)
-![](https://img.shields.io/badge/version-0.1-blue.svg)
 
 # Spotifiuby Payments Server
 
