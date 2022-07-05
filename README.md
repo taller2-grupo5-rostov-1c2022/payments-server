@@ -15,7 +15,7 @@ Once you have that in place, you can install the dependencies with npm through `
 
 Alternatively, you can use `docker-compose up --build` command in the project root.
 
-Check out the SC in [Etherscan](https://rinkeby.etherscan.io/address/0xe9f7f026355d691238f628cd8bcbb39bf7f4f8e2)
+Check out the SC in [Etherscan](https://rinkeby.etherscan.io/address/0xe9f7f026355d691238f628cd8bcbb39bf7f4f8e2) 🚀
 
 ## Docker
 
@@ -191,7 +191,7 @@ Keep in mind that all endpoints needs a `api_key` header with the `API key` valu
 ]
 ```
 - **Get transactions from specific user**
-  - `GET api/v1/transactions/:userId`
+  - `GET api/v1/transactions/{userId}`
     - Path: _userId_ is the id of the user.
     - Body: empty
     - Headers: `role` with the role value of `admin`, `artist` or `listener`.
@@ -257,7 +257,7 @@ Keep in mind that all endpoints needs a `api_key` header with the `API key` valu
 ```
 
 - **Get balance from a wallet for a specific user (Path)**
-  - `GET api/v1/balances/:userId`
+  - `GET api/v1/balances/{userId}`
     - Path: _userId_ is the id of the user formatted as a string.
     - Headers: `role` with the role value of `admin`, `artist` or `listener`.
     - Response example: _balance_ represents the balance of the user in ethers.
@@ -274,7 +274,7 @@ Keep in mind that all endpoints needs a `api_key` header with the `API key` valu
 ```json
 {
     "balance": "0.05156058679858502",
-    "systemAddress": "0x112312f15f1f51f8e"
+    "systemWallet": "0x112312f15f1f51f8e"
 }
 ```
 
